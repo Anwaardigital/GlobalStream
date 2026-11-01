@@ -52,6 +52,13 @@ label{font-size:14px;color:var(--muted)}
 .stat b{font-size:26px;display:block}.stat span{font-size:13px;opacity:.9}
 footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;color:var(--muted);font-size:14px}
 .tag{display:inline-block;background:var(--navy);color:#fff;border-radius:12px;padding:2px 9px;font-size:12px;margin:2px}
+/* Phase 2 proxy feed cards */
+.gs-news-item,.gs-match,.gs-flight,.gs-film,.gs-video,.gs-disaster{border-top:1px solid var(--line);padding:8px 0}
+.gs-news-item img,.gs-cam img,.gs-film img,.gs-video img{max-width:100%;border-radius:8px}
+.gs-flight-pk{background:rgba(14,124,134,.08);border-left:3px solid var(--ok);padding-left:8px}
+.gs-feed-error{color:#b00020;font-size:14px}
+.gs-stale-note,.gs-credit{color:var(--muted);font-size:13px}
+.gs-cam{margin:8px 0}.gs-cam figcaption{font-size:13px;color:var(--muted)}
 
 </style>
 </head>
@@ -97,10 +104,24 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <b>Palestine &amp; Gaza board — coming in Phase 3.</b>
 <p class="small">The Gaza board will show martyred + injured totals and last-24h figures ONLY from a verified live source, with source name and last-update date. No figures are shown until that source is connected — nothing here is estimated.</p>
 </div>
-<div class="phase2 feat" data-kw="headlines pakistan world sports technology islamic crypto oil defence mou">
-<b>Headline news sections (Pakistan, World, Sports, Technology, Islamic, Crypto, Oil, Defence, MoU) — coming in Phase 2.</b>
-<p class="small">These need a keyed news API through a server-side PHP proxy (keys are never put in this page). They are intentionally empty until then — no sample headlines are shown as real news.</p>
+<div class="grid">
+<div class="mini feat" data-kw="headlines top news"><b>Top headlines</b><div id="gs-news-general">Loading…</div></div>
+<div class="mini feat" data-kw="world news"><b>World news</b><div id="gs-news-world">Loading…</div></div>
+<div class="mini feat" data-kw="technology tech news"><b>Technology news</b><div id="gs-news-tech">Loading…</div></div>
+<div class="mini feat" data-kw="sports news"><b>Sports news</b><div id="gs-news-sports">Loading…</div></div>
+<div class="mini feat" data-kw="business news"><b>Business news</b><div id="gs-news-business">Loading…</div></div>
+<div class="mini feat" data-kw="science news"><b>Science news</b><div id="gs-news-science">Loading…</div></div>
+<div class="mini feat" data-kw="health news"><b>Health news</b><div id="gs-news-health">Loading…</div></div>
+<div class="mini feat" data-kw="islamic news"><b>Islamic news</b><div id="gs-news-islamic">Loading…</div></div>
+<div class="mini feat" data-kw="defence news"><b>Defence news</b><div id="gs-news-defence">Loading…</div></div>
+<div class="mini feat" data-kw="mou agreement news"><b>Agreements &amp; MoUs</b><div id="gs-news-mou">Loading…</div></div>
+<div class="mini feat" data-kw="oil energy news"><b>Oil &amp; energy news</b><div id="gs-news-oil">Loading…</div></div>
+<div class="mini feat" data-kw="crypto news"><b>Crypto news</b><div id="gs-news-crypto">Loading…</div></div>
+<div class="mini feat" data-kw="palestine news"><b>Palestine news</b><div id="gs-news-palestine">Loading…</div></div>
+<div class="mini feat" data-kw="war news conflicts gdelt"><b>War news (GDELT)</b><div id="gs-news-war">Loading…</div></div>
+<div class="mini feat" data-kw="disaster alert gdacs earthquake flood"><b>Disaster alerts (GDACS)</b><div id="gs-gdacs">Loading…</div><p class="small">Source: GDACS (public domain).</p></div>
 </div>
+<p class="small">Headline news via NewsAPI through a server-side proxy — keys are never put in this page. Every article links to its original source.</p>
 </section>
 
 <!-- ============ MONEY ============ -->
@@ -120,6 +141,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <button class="primary" type="button" id="ccBtn">Convert</button>
 <div id="ccOut"></div></div>
 <div class="mini feat" data-kw="30 day movers strongest weakest currency"><b>30-day movers vs USD</b><div id="fxMovers">Loading…</div></div>
+<div class="mini feat" data-kw="stocks indices ticker kse"><b>Stock indices (live ticker)</b><div id="gs-stocks">Loading…</div><p class="small">Free TradingView widget (no key).</p></div>
 </div>
 </section>
 
@@ -156,6 +178,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <button class="primary" type="button" id="qiblaBtn">Show</button>
 <div id="qiblaOut"></div></div>
 <div class="mini feat" data-kw="makrooh forbidden prayer times zawal"><b>Makrooh times (approximate, Karachi)</b><div id="makrooh">Loading…</div><p class="small">Approximate: 20 min after sunrise, 10 min before Dhuhr (zawal), 20 min before sunset.</p></div>
+<div class="mini feat" data-kw="hadith"><b>Hadith of the moment</b><div id="gs-hadith">Loading…</div></div>
 </div>
 </section>
 
@@ -164,9 +187,18 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <!-- ============ SPORTS ============ -->
 <section class="card" id="sports">
 <h2>Sports</h2>
-<div class="phase2 feat" data-kw="cricket live scores points table football">
-<b>Live cricket scores, points table &amp; football scores — coming in Phase 2.</b>
-<p class="small">These need free keyed APIs (CricketData/CricAPI, football API) through a server-side PHP proxy. No scores are shown until a live feed is connected.</p>
+<div class="grid">
+<div class="mini feat" data-kw="cricket live scores"><b>Live cricket scores</b><div id="gs-cricket">Loading…</div><p class="small">Source: CricAPI via server-side proxy.</p></div>
+<div class="mini feat" data-kw="football standings premier league"><b>Football standings</b>
+<label>League <select id="gsFootballComp">
+<option value="PL">England — Premier League</option>
+<option value="PD">Spain — La Liga</option>
+<option value="SA">Italy — Serie A</option>
+<option value="BL1">Germany — Bundesliga</option>
+<option value="FL1">France — Ligue 1</option>
+<option value="CL">Champions League</option>
+</select></label>
+<div id="gs-football">Loading…</div><p class="small">Source: Football-Data.org via server-side proxy.</p></div>
 </div>
 </section>
 
@@ -190,9 +222,14 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="mini feat" data-kw="longest flight rivers buildings mosques records"><b>World records (static)</b><div id="worldRecords"></div></div>
 <div class="mini feat" data-kw="nearby hospital pharmacy atm petrol pump map"><b>Nearby facilities</b><div id="nearbyBox"></div><p class="small">Opens OpenStreetMap search for the selected city. No tracking.</p></div>
 </div>
-<div class="phase2 feat" data-kw="ship tracking vessels sea ais flight search status webcams">
-<b>Ship tracking, flight search by number, live webcams — coming in Phase 2.</b>
-<p class="small">These need keyed APIs (AISHub, Aviationstack, Windy) through a server-side PHP proxy.</p>
+<div class="grid">
+<div class="mini feat" data-kw="flight search status aviationstack"><b>Live flights (Aviationstack)</b><div id="gs-flights">Loading…</div><p class="small">Pakistan routes are highlighted. Source: Aviationstack via server-side proxy.</p></div>
+<div class="mini feat" data-kw="webcams live cameras windy"><b>Live webcams (Windy)</b><div id="gs-webcams">Loading…</div><p class="small">Images refresh on every page load. If this feed shows an error, the Windy connection is being fixed — no sample images are shown. Webcams by Windy.</p></div>
+<div class="mini feat" data-kw="space picture nasa apod"><b>Space picture of the day (NASA)</b><div id="gs-apod">Loading…</div></div>
+</div>
+<div class="phase2 feat" data-kw="ship tracking vessels sea ais">
+<b>Ship tracking — coming later.</b>
+<p class="small">Ships need a free AIS feed (AISHub gives receiver-feed credentials, not a simple key). It is not dropped — it will be added when a good free ships API is found. Nothing fake is shown here.</p>
 </div>
 </section>
 
@@ -243,6 +280,10 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <!-- ============ LIVE ============ -->
 <section class="card" id="live">
 <h2>Live</h2>
+<div class="grid">
+<div class="mini feat" data-kw="trending films movies tmdb"><b>Trending films (TMDB)</b><div id="gs-tmdb">Loading…</div></div>
+<div class="mini feat" data-kw="trending videos youtube"><b>Trending videos (YouTube)</b><div id="gs-youtube">Loading…</div></div>
+</div>
 <div class="phase2 feat" data-kw="makkah live madina live azaan audio">
 <b>Makkah &amp; Madinah live streams and Azaan audio — coming in Phase 2.</b>
 <p class="small">Live embeds need verified official stream IDs and an audio file. Until verified, nothing is embedded — a guessed stream would be a dead player.</p>
@@ -253,9 +294,349 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 
 <footer>
 <p><b>GlobalStream</b> by Anwaar Digital — the world, live.</p>
-<p class="small">Phase 1: live no-key feeds only. No API keys are used anywhere on this page. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
+<p class="small">Phase 2: live no-key feeds plus keyed feeds (news, sports, films, videos, webcams, space picture, disasters, hadith) served through a server-side proxy. No API keys are used anywhere on this page — keys stay on the proxy server. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
 </footer>
 
+<script>
+/* ==========================================================================
+   GlobalStream — Phase 2 wiring (browser side)
+   --------------------------------------------------------------------------
+   This file contains NO API keys. Every keyed call goes through the PHP
+   proxy. Change ONE constant below when the proxy moves, nothing else.
+   ========================================================================== */
+
+// >>> Proxy URL (live InfinityFree proxy, deployed 2026-11-01).
+var GS_PROXY = 'https://globalstream-proxy.xo.je/proxy.php';
+
+(function () {
+  'use strict';
+
+  /* ---------------- core ---------------- */
+
+  function gsEsc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // Fetch one proxy endpoint. Always resolves to the envelope object, or
+  // {ok:false, error:'...'} on network failure. Never throws.
+  function gsGet(endpoint, params) {
+    var q = 'endpoint=' + encodeURIComponent(endpoint);
+    if (params) {
+      Object.keys(params).forEach(function (k) {
+        q += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+      });
+    }
+    return fetch(GS_PROXY + '?' + q).then(function (r) { return r.json(); })
+      .catch(function () { return { ok: false, error: 'network' }; });
+  }
+
+  function gsErrorHTML() {
+    return '<p class="gs-feed-error">This feed is temporarily unavailable. '
+      + 'Please try again later.</p>';
+  }
+
+  function gsStaleNote(env) {
+    return env.stale
+      ? '<p class="gs-stale-note">Showing last saved update (live feed is busy).</p>' : '';
+  }
+
+  function gsTime(iso) {
+    if (!iso) return '';
+    try { return new Date(iso).toLocaleString(); } catch (e) { return iso; }
+  }
+
+  /* ---------------- news (all beats) ---------------- */
+  // el: container element. beat: general|world|tech|sports|business|science|
+  // health|islamic|defence|mou|oil|crypto|palestine|war
+  // Every article links to its ORIGINAL source (NewsAPI url) — that link IS
+  // the required source attribution. The war beat comes from GDELT.
+  function renderNews(el, beat) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading news…</p>';
+    gsGet('news', { beat: beat }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.articles || !env.data.articles.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.articles.forEach(function (a) {
+        html += '<article class="gs-news-item">'
+          + (a.image ? '<img src="' + gsEsc(a.image) + '" alt="" loading="lazy">' : '')
+          + '<h4><a href="' + gsEsc(a.url) + '" target="_blank" rel="noopener">'
+          + gsEsc(a.title) + '</a></h4>'
+          + (a.description ? '<p>' + gsEsc(a.description) + '</p>' : '')
+          + '<small>Source: ' + gsEsc(a.source || (beat === 'war' ? 'GDELT' : ''))
+          + ' · ' + gsTime(a.publishedAt) + '</small></article>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
+  /* ---------------- cricket ---------------- */
+  function renderCricket(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading cricket…</p>';
+    gsGet('cricket', {}).then(function (env) {
+      if (!env.ok || !env.data || !env.data.matches || !env.data.matches.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.matches.forEach(function (m) {
+        var sc = (m.score || []).map(function (s) {
+          return gsEsc(s.inning) + ': ' + s.runs + '/' + s.wickets
+            + ' (' + s.overs + ' ov)';
+        }).join(' · ');
+        html += '<div class="gs-match"><strong>' + gsEsc(m.name) + '</strong>'
+          + '<div>' + gsEsc(m.status || '') + '</div>'
+          + (sc ? '<div>' + sc + '</div>' : '')
+          + '<small>' + gsEsc(m.venue || '') + ' · ' + gsTime(m.date) + '</small></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
+  /* ---------------- football ---------------- */
+  // competition: PL (England), PD (Spain), SA (Italy), BL1 (Germany),
+  // FL1 (France), CL (Champions League)
+  function renderFootball(el, competition) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading standings…</p>';
+    gsGet('football', { competition: competition || 'PL' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.standings) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env)
+        + '<h4>' + gsEsc(env.data.competition || '') + '</h4>'
+        + '<table class="gs-table"><tr><th>#</th><th>Team</th><th>P</th>'
+        + '<th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr>';
+      env.data.standings.forEach(function (r) {
+        html += '<tr><td>' + r.position + '</td><td>'
+          + (r.crest ? '<img src="' + gsEsc(r.crest) + '" alt="" width="18"> ' : '')
+          + gsEsc(r.team) + '</td><td>' + r.played + '</td><td>' + r.won
+          + '</td><td>' + r.drawn + '</td><td>' + r.lost + '</td><td>'
+          + r.goalDifference + '</td><td><strong>' + r.points + '</strong></td></tr>';
+      });
+      el.innerHTML = html + '</table>';
+    });
+  }
+
+  /* ---------------- flights ---------------- */
+  // Pakistan airport IATA codes highlighted, not filtered: the free plan
+  // returns active flights globally, so the page marks Pakistan routes.
+  var PK_AIRPORTS = ['KHI', 'LHE', 'ISB', 'PEW', 'MUX', 'UET', 'SKT', 'LYP', 'BHV', 'GWD'];
+  function renderFlights(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading flights…</p>';
+    gsGet('flights', { limit: 50 }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.flights || !env.data.flights.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.flights.forEach(function (f) {
+        var pk = PK_AIRPORTS.indexOf(f.dep_iata) >= 0
+              || PK_AIRPORTS.indexOf(f.arr_iata) >= 0;
+        html += '<div class="gs-flight' + (pk ? ' gs-flight-pk' : '') + '">'
+          + '<strong>' + gsEsc(f.flight || '—') + '</strong> '
+          + gsEsc(f.airline || '') + '<br>'
+          + gsEsc(f.dep_airport || f.dep_iata) + ' (' + gsEsc(f.dep_iata) + ')'
+          + ' → ' + gsEsc(f.arr_airport || f.arr_iata) + ' (' + gsEsc(f.arr_iata) + ')'
+          + '<br><small>Status: ' + gsEsc(f.status || '')
+          + (pk ? ' · 🇵🇰 Pakistan route' : '') + '</small></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
+  /* ---------------- webcams ---------------- */
+  // Free-tier image URLs expire in ~10 minutes (Windy V3 docs), so the
+  // proxy fetches them fresh on every page load — never cached. Every card
+  // links to Windy (required link/embed attribution for the free tier).
+  function renderWebcams(el, opts) {
+    if (!el) return;
+    opts = opts || {};
+    el.innerHTML = '<p>Loading webcams…</p>';
+    var p = { limit: opts.limit || 8 };
+    if (opts.country) p.country = opts.country;
+    if (opts.lat && opts.lon) { p.lat = opts.lat; p.lon = opts.lon; if (opts.radius) p.radius = opts.radius; }
+    gsGet('webcams', p).then(function (env) {
+      if (!env.ok || !env.data || !env.data.webcams || !env.data.webcams.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = '';
+      env.data.webcams.forEach(function (w) {
+        html += '<figure class="gs-cam">'
+          + (w.image ? '<img src="' + gsEsc(w.image) + '" alt="' + gsEsc(w.title) + '" loading="lazy">' : '')
+          + '<figcaption>' + gsEsc(w.title)
+          + (w.city ? ' — ' + gsEsc(w.city) : '')
+          + (w.country ? ', ' + gsEsc(w.country) : '')
+          + (w.windy_url ? ' · <a href="' + gsEsc(w.windy_url) + '" target="_blank" rel="noopener">View on Windy</a>' : '')
+          + '</figcaption></figure>';
+      });
+      el.innerHTML = html
+        + '<p class="gs-credit">Webcams by <a href="https://windy.com/webcams" target="_blank" rel="noopener">Windy</a></p>';
+    });
+  }
+
+  /* ---------------- space picture (APOD) ---------------- */
+  function renderApod(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading space picture…</p>';
+    gsGet('apod', {}).then(function (env) {
+      if (!env.ok || !env.data || !env.data.url) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var d = env.data;
+      el.innerHTML = gsStaleNote(env)
+        + '<h4>' + gsEsc(d.title) + '</h4>'
+        + (d.media_type === 'image'
+          ? '<img src="' + gsEsc(d.url) + '" alt="' + gsEsc(d.title) + '" loading="lazy">'
+          : '<p><a href="' + gsEsc(d.url) + '" target="_blank" rel="noopener">View today\'s media on NASA</a></p>')
+        + '<p>' + gsEsc(d.explanation || '') + '</p>'
+        + '<small>' + gsEsc(d.date || '')
+        + (d.copyright ? ' · © ' + gsEsc(d.copyright) : '')
+        + ' · Source: NASA APOD</small>';
+    });
+  }
+
+  /* ---------------- films (TMDB) ---------------- */
+  // TMDB terms REQUIRE attribution: the credit line below must stay visible.
+  function renderTmdb(el, type) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading films…</p>';
+    gsGet('tmdb', { type: type || 'movie', time: 'day' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.results || !env.data.results.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.results.forEach(function (m) {
+        html += '<div class="gs-film">'
+          + (m.poster ? '<img src="' + gsEsc(m.poster) + '" alt="' + gsEsc(m.title) + '" loading="lazy">' : '')
+          + '<strong>' + gsEsc(m.title) + '</strong>'
+          + '<div>★ ' + (m.rating != null ? m.rating.toFixed(1) : '—')
+          + (m.date ? ' · ' + gsEsc(m.date) : '') + '</div>'
+          + (m.overview ? '<p>' + gsEsc(m.overview) + '</p>' : '') + '</div>';
+      });
+      el.innerHTML = html
+        + '<p class="gs-credit">This product uses the TMDB API but is not endorsed or certified by '
+        + '<a href="https://www.themoviedb.org/" target="_blank" rel="noopener">TMDB</a>.</p>';
+    });
+  }
+
+  /* ---------------- trending videos (YouTube) ---------------- */
+  function renderYoutube(el, region) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading videos…</p>';
+    gsGet('youtube', { region: region || 'PK', max: 12 }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.videos || !env.data.videos.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.videos.forEach(function (v) {
+        html += '<div class="gs-video">'
+          + '<a href="' + gsEsc(v.url) + '" target="_blank" rel="noopener">'
+          + '<img src="' + gsEsc(v.thumbnail) + '" alt="" loading="lazy">'
+          + '<strong>' + gsEsc(v.title) + '</strong></a>'
+          + '<div>' + gsEsc(v.channel)
+          + (v.views ? ' · ' + Number(v.views).toLocaleString() + ' views' : '')
+          + '</div></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
+  /* ---------------- disasters (GDACS) ---------------- */
+  function renderGdacs(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading disasters…</p>';
+    gsGet('gdacs', {}).then(function (env) {
+      if (!env.ok || !env.data || !env.data.events || !env.data.events.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = gsStaleNote(env);
+      env.data.events.forEach(function (e) {
+        html += '<div class="gs-disaster"><strong>'
+          + (e.alert ? '[' + gsEsc(e.alert) + '] ' : '')
+          + '<a href="' + gsEsc(e.link) + '" target="_blank" rel="noopener">'
+          + gsEsc(e.title) + '</a></strong>'
+          + '<div>' + gsEsc(e.description || '') + '</div>'
+          + '<small>' + gsTime(e.publishedAt) + ' · Source: GDACS</small></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
+  /* ---------------- hadith (UmmahAPI: direct first, proxy fallback) ------ */
+  // No key needed. Direct browser call first; if it fails (e.g. CORS), the
+  // proxy fetches the same data server-side. Both paths show real data or
+  // an honest error — never invented text.
+  function renderHadith(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading hadith…</p>';
+    function show(h) {
+      if (!h) { el.innerHTML = gsErrorHTML(); return; }
+      var text = h.english || h.translation || h.text || '';
+      el.innerHTML = '<blockquote>' + gsEsc(text) + '</blockquote>'
+        + '<small>' + gsEsc(h.collection_name || h.collection || '')
+        + (h.hadithnumber ? ' · Hadith ' + h.hadithnumber : '')
+        + (h.grade ? ' · ' + gsEsc(h.grade) : '')
+        + ' · Source: UmmahAPI</small>';
+    }
+    fetch('https://ummahapi.com/api/hadith/random')
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.data) { show(j.data); return; }
+        return gsGet('hadith', { random: '1' }).then(function (env) {
+          show(env.ok && env.data ? env.data.hadith : null);
+        });
+      })
+      .catch(function () {
+        gsGet('hadith', { random: '1' }).then(function (env) {
+          show(env.ok && env.data ? env.data.hadith : null);
+        });
+      });
+  }
+
+  /* ---------------- stocks (TradingView widget, NO key) ------------------ */
+  // Free widget, no account, no key. Renders an indices ticker tape.
+  // NOTE: verify the KSE-100 symbol ("PSX:KSE100") in the TradingView
+  // symbol search at deploy time; drop it from the list if not found.
+  function renderStocks(el) {
+    if (!el) return;
+    el.innerHTML = '<div class="tradingview-widget-container">'
+      + '<div class="tradingview-widget-container__widget"></div></div>';
+    var s = document.createElement('script');
+    s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+    s.async = true;
+    s.innerHTML = JSON.stringify({
+      symbols: [
+        { proName: 'SPX', title: 'S&P 500' },
+        { proName: 'NASDAQ:NDX', title: 'Nasdaq 100' },
+        { proName: 'DJI', title: 'Dow 30' },
+        { proName: 'FTSE:UKX', title: 'FTSE 100' },
+        { proName: 'NIKKEI:NI225', title: 'Nikkei 225' },
+        { proName: 'TVC:GOLD', title: 'Gold' },
+        { proName: 'BITSTAMP:BTCUSD', title: 'Bitcoin' },
+        { proName: 'PSX:KSE100', title: 'KSE-100' }
+      ],
+      colorTheme: 'light', isTransparent: false,
+      displayMode: 'adaptive', locale: 'en'
+    });
+    el.appendChild(s);
+  }
+
+  /* ---------------- public API ---------------- */
+  window.GS = {
+    proxy: function () { return GS_PROXY; },
+    get: gsGet,
+    news: renderNews, cricket: renderCricket, football: renderFootball,
+    flights: renderFlights, webcams: renderWebcams, apod: renderApod,
+    tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
+    hadith: renderHadith, stocks: renderStocks
+  };
+})();
+
+</script>
 <script>
 /* GlobalStream Phase 1 — live no-key feeds only. No API keys anywhere in this file. */
 (function () {
@@ -857,6 +1238,28 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
   tickClock(); setInterval(tickClock, 30000);
 })();
 
+</script>
+<script>
+/* GlobalStream Phase 2 — call the proxy renderers. */
+(function () {
+  function g(id) { return document.getElementById(id); }
+  if (!window.GS) return;
+  ['general','world','tech','sports','business','science','health','islamic','defence','mou','oil','crypto','palestine','war'].forEach(function (b) {
+    GS.news(g('gs-news-' + b), b);
+  });
+  GS.gdacs(g('gs-gdacs'));
+  GS.stocks(g('gs-stocks'));
+  GS.hadith(g('gs-hadith'));
+  GS.cricket(g('gs-cricket'));
+  function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); }
+  g('gsFootballComp').addEventListener('change', loadFootball);
+  loadFootball();
+  GS.flights(g('gs-flights'));
+  GS.webcams(g('gs-webcams'), { limit: 8 });
+  GS.apod(g('gs-apod'));
+  GS.tmdb(g('gs-tmdb'), 'movie');
+  GS.youtube(g('gs-youtube'), 'PK');
+})();
 </script>
 </body>
 </html>
