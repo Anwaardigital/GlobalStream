@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GlobalStream by Anwaar Digital — The World, Live</title>
-<meta name="description" content="GlobalStream by Anwaar Digital: live money, weather, prayer times, news, travel and tools from free sources — no sign-up.">
+<meta name="description" content="GlobalStream by Anwaar Digital: live news, money, weather, prayer times, travel and tools from free sources — no sign-up.">
 <style>
 :root{--navy:#0b2a7a;--navy2:#123a9e;--teal:#0e7c86;--bg:#f2f4f8;--card:#fff;--ink:#16233f;--muted:#5b6b85;--line:#dde3ee;--gold:#c9a227;--bad:#7a0e12;--ok:#0e7c86}
 [data-theme="dark"]{--bg:#0d1730;--card:#16224a;--ink:#eaf0ff;--muted:#aab6d3;--line:#2a3a63}
@@ -65,7 +65,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 
 <div class="hero">
 <h1>The World, Live</h1>
-<p>Money, weather, prayer times, news, travel and tools — from free live sources. No sign-up.</p>
+<p>News, money, weather, prayer times, travel and tools — from free live sources. No sign-up.</p>
 <div class="searchbar">
 <input id="searchBox" type="search" placeholder="Search features on this page (e.g. weather, zakat, gold)…">
 <button class="primary" type="button" onclick="document.getElementById('searchBox').focus()">Search</button>
@@ -76,10 +76,33 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="ticker" id="ticker">Loading live data…</div>
 
 <nav class="secnav">
-<a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#news">News</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a>
+<a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a>
 </nav>
 
 <main>
+<!-- ============ NEWS ============ -->
+<section class="card" id="news">
+<h2>News</h2>
+<div class="grid">
+<div class="mini feat" data-kw="earthquake disaster alert"><b>Earthquakes — past day (USGS)</b><div id="quakeList">Loading…</div></div>
+<div class="mini feat" data-kw="on this day history"><b>On this day in history</b><div id="otdList">Loading…</div><p class="small">Source: Wikipedia On This Day feed.</p></div>
+<div class="mini feat" data-kw="war news conflicts"><b>War news — ongoing conflicts</b><div id="warNews">Loading…</div></div>
+<div class="mini feat" data-kw="world holidays"><b>Upcoming world holidays</b><div id="holidayList">Loading…</div></div>
+<div class="mini feat" data-kw="trending books free books"><b>Trending books (Open Library)</b><div id="bookTrend">Loading…</div>
+<label>Search books <input id="bookQ" type="text" placeholder="e.g. history"></label>
+<button class="primary" type="button" id="bookBtn">Search</button>
+<div id="bookSearch"></div></div>
+</div>
+<div class="phase2 feat" data-kw="palestine gaza board">
+<b>Palestine &amp; Gaza board — coming in Phase 3.</b>
+<p class="small">The Gaza board will show martyred + injured totals and last-24h figures ONLY from a verified live source, with source name and last-update date. No figures are shown until that source is connected — nothing here is estimated.</p>
+</div>
+<div class="phase2 feat" data-kw="headlines pakistan world sports technology islamic crypto oil defence mou">
+<b>Headline news sections (Pakistan, World, Sports, Technology, Islamic, Crypto, Oil, Defence, MoU) — coming in Phase 2.</b>
+<p class="small">These need a keyed news API through a server-side PHP proxy (keys are never put in this page). They are intentionally empty until then — no sample headlines are shown as real news.</p>
+</div>
+</section>
+
 <!-- ============ MONEY ============ -->
 <section class="card" id="money">
 <h2>Money</h2>
@@ -136,28 +159,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 </div>
 </section>
 
-<!-- ============ NEWS ============ -->
-<section class="card" id="news">
-<h2>News</h2>
-<div class="grid">
-<div class="mini feat" data-kw="earthquake disaster alert"><b>Earthquakes — past day (USGS)</b><div id="quakeList">Loading…</div></div>
-<div class="mini feat" data-kw="on this day history"><b>On this day in history</b><div id="otdList">Loading…</div><p class="small">Source: Wikipedia On This Day feed.</p></div>
-<div class="mini feat" data-kw="war news conflicts"><b>War news — ongoing conflicts</b><div id="warNews">Loading…</div></div>
-<div class="mini feat" data-kw="world holidays"><b>Upcoming world holidays</b><div id="holidayList">Loading…</div></div>
-<div class="mini feat" data-kw="trending books free books"><b>Trending books (Open Library)</b><div id="bookTrend">Loading…</div>
-<label>Search books <input id="bookQ" type="text" placeholder="e.g. history"></label>
-<button class="primary" type="button" id="bookBtn">Search</button>
-<div id="bookSearch"></div></div>
-</div>
-<div class="phase2 feat" data-kw="palestine gaza board">
-<b>Palestine &amp; Gaza board — coming in Phase 3.</b>
-<p class="small">The Gaza board will show martyred + injured totals and last-24h figures ONLY from a verified live source, with source name and last-update date. No figures are shown until that source is connected — nothing here is estimated.</p>
-</div>
-<div class="phase2 feat" data-kw="headlines pakistan world sports technology islamic crypto oil defence mou">
-<b>Headline news sections (Pakistan, World, Sports, Technology, Islamic, Crypto, Oil, Defence, MoU) — coming in Phase 2.</b>
-<p class="small">These need a keyed news API through a server-side PHP proxy (keys are never put in this page). They are intentionally empty until then — no sample headlines are shown as real news.</p>
-</div>
-</section>
+
 
 <!-- ============ SPORTS ============ -->
 <section class="card" id="sports">
