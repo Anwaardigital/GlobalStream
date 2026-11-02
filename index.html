@@ -291,11 +291,20 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="mini feat" data-kw="trending films movies tmdb"><b>Trending films (TMDB)</b><div id="gs-tmdb">Loading…</div></div>
 <div class="mini feat" data-kw="trending videos youtube"><b>Trending videos (YouTube)</b><div id="gs-youtube">Loading…</div></div>
 </div>
-<div class="phase2 feat" data-kw="makkah live madina live azaan audio">
-<b>Makkah &amp; Madinah live streams and Azaan audio — coming in Phase 2.</b>
-<p class="small">Live embeds need verified official stream IDs and an audio file. Until verified, nothing is embedded — a guessed stream would be a dead player.</p>
+<div class="phase2 feat" data-kw="makkah live kaaba haram">
+<b>Makkah live — Masjid al-Haram</b>
+<div><iframe src="https://www.youtube.com/embed/eC4LfEVxvKg" title="Makkah live — official Quran TV stream" style="width:100%;aspect-ratio:16/9;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+<p class="small">Official live stream from Quran TV (Saudi Broadcasting Authority). Source: YouTube — <a href="https://www.youtube.com/@SaudiQuranTv" target="_blank" rel="noopener">@SaudiQuranTv</a>.</p>
 </div>
-<p><a href="https://www.youtube.com/results?search_query=makkah+live" target="_blank" rel="noopener">Watch Makkah live on YouTube</a> · <a href="https://www.youtube.com/results?search_query=madina+live" target="_blank" rel="noopener">Watch Madinah live on YouTube</a></p>
+<div class="mini feat" data-kw="azaan audio adhan call to prayer">
+<b>Azaan audio</b>
+<div><audio controls src="https://upload.wikimedia.org/wikipedia/commons/7/7d/The_Adhan_-_Muslim_Call_to_Prayer_-_Aaqib_Azeez.mp3">Your browser does not support audio playback.</audio></div>
+<p class="small">“The Adhan — Muslim Call to Prayer” (86 seconds), CC BY-SA 4.0, via Wikimedia Commons.</p>
+</div>
+<div class="mini feat" data-kw="madina live madinah nabawi">
+<b>Madinah live — not verified right now</b>
+<p class="small">The official Sunnah TV live page did not resolve to a live video during checking, so no Madinah player is embedded rather than a possibly dead one. Official channel: <a href="https://www.youtube.com/@SaudiSunnahTv" target="_blank" rel="noopener">@SaudiSunnahTv</a> · <a href="https://www.youtube.com/results?search_query=madina+live" target="_blank" rel="noopener">Search Madinah live on YouTube</a>.</p>
+</div>
 </section>
 
 <!-- ============ ABOUT ============ -->
@@ -1197,12 +1206,18 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     $("tzOut").innerHTML = "<b>" + t + " in " + fromTz + " = " + out + " in " + toTz + " (today's date basis).</b>";
   });
   function loadTravel() {
-    fetchJSON("https://api.open-notify.org/iss-now.json")
+    /* ISS via wheretheiss.at (free, https, CORS-open). The previous
+       open-notify endpoint answers curl fine, but the page's live check
+       kept failing on phones; wheretheiss.at works from the browser. */
+    fetchJSON("https://api.wheretheiss.at/v1/satellites/25544")
       .then(function (d) {
-        $("issPos").innerHTML = "<div><b>Latitude:</b> " + d.iss_position.latitude + " · <b>Longitude:</b> " + d.iss_position.longitude + "</div>" +
-          "<div class='small'>Live ISS position (open-notify). Refresh the page for a new fix.</div>";
+        var lat = d.latitude, lon = d.longitude;
+        $("issPos").innerHTML = "<div><b>Latitude:</b> " + fmt(lat, 4) + " · <b>Longitude:</b> " + fmt(lon, 4) + "</div>" +
+          "<div class='small'>Altitude " + fmt(d.altitude, 0) + " km · speed " + fmt(d.velocity, 0) + " km/h · visibility: " + esc(d.visibility || "—") + "</div>" +
+          "<div><a href='https://maps.google.com/?q=" + lat + "," + lon + "' target='_blank' rel='noopener'>See on map</a></div>" +
+          "<div class='small'>Live ISS position (wheretheiss.at). Refresh the page for a new fix.</div>";
       }).catch(function () {
-        $("issPos").innerHTML = "<span class='err'>ISS feed unreachable right now (the open-notify service returned an empty reply during testing). No position is shown rather than a guessed one — try again later.</span>";
+        $("issPos").innerHTML = "<span class='err'>ISS feed unreachable right now. No position is shown rather than a guessed one — try again later.</span>";
       });
     fetchJSON("https://opensky-network.org/api/states/all?lamin=20&lomin=60&lamax=30&lomax=75")
       .then(function (d) {
@@ -1213,7 +1228,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
             return "<div><b>" + esc(s[1] || "—") + "</b> <span class='small'>from " + esc(s[2] || "—") + " · alt " + (s[7] ? fmt(s[7], 0) + " m" : "—") + " · speed " + (s[9] ? fmt(s[9] * 3.6, 0) + " km/h" : "—") + "</span></div>";
           }).join("");
       }).catch(function () {
-        $("flightList").innerHTML = "<span class='err'>Live flight feed unreachable right now (OpenSky returned an empty reply during testing). No flights are shown rather than invented ones — try again later.</span>";
+        $("flightList").innerHTML = "<span class='err'>Live OpenSky feed cannot load in this browser: OpenSky only allows its own website to read its feed, so this page is blocked from it (the feed itself answers fine — the block is on the browser side). No flights are shown rather than invented ones. The working Aviationstack flights card is also in the Travel section.</span>";
       });
     fetchJSON("https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=5")
       .then(function (d) {
