@@ -398,7 +398,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   function renderNews(el, beat) {
     if (!el) return;
     el.innerHTML = '<p>Loading news…</p>';
-    gsGet('news', { beat: beat }).then(function (env) {
+    /* v=2: bypasses pre-policy cached beats (before the pro-Israel outlet
+       blocklist was added). */
+    gsGet('news', { beat: beat, v: '2' }).then(function (env) {
       if (!env.ok || !env.data || !env.data.articles || !env.data.articles.length) {
         el.innerHTML = gsErrorHTML(); return;
       }
