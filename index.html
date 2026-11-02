@@ -101,8 +101,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div id="bookSearch"></div></div>
 </div>
 <div class="phase2 feat" data-kw="palestine gaza board">
-<b>Palestine &amp; Gaza board — coming in Phase 3.</b>
-<p class="small">The Gaza board will show martyred + injured totals and last-24h figures ONLY from a verified live source, with source name and last-update date. No figures are shown until that source is connected — nothing here is estimated.</p>
+<b>Gaza live board — reported casualties</b><div id="gs-gaza">Loading…</div>
 </div>
 <div class="grid">
 <div class="mini feat" data-kw="headlines top news"><b>Top headlines</b><div id="gs-news-general">Loading…</div></div>
@@ -294,7 +293,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 
 <footer>
 <p><b>GlobalStream</b> by Anwaar Digital — the world, live.</p>
-<p class="small">Phase 2: live no-key feeds plus keyed feeds (news, sports, films, videos, webcams, space picture, disasters, hadith) served through a server-side proxy. No API keys are used anywhere on this page — keys stay on the proxy server. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
+<p class="small">Phase 2: live no-key feeds plus keyed feeds (news, sports, films, videos, webcams, space picture, disasters, hadith) served through a server-side proxy. Phase 3: Gaza live board — reported casualties from the Gaza Ministry of Health via Tech for Palestine, with the report date shown. No API keys are used anywhere on this page — keys stay on the proxy server. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
 </footer>
 
 <script>
@@ -566,6 +565,39 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
 
+  /* ---------------- Gaza live board (Tech for Palestine, no key) -------- */
+  // Shows the latest REAL report only: totals are labelled "reported",
+  // the "newly reported" figure carries its report period (24h/48h),
+  // and the source name + report date are always shown. On failure the
+  // honest error is shown — never an estimate.
+  function renderGaza(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading Gaza board…</p>';
+    gsGet('gaza', {}).then(function (env) {
+      if (!env.ok || !env.data || env.data.killed_cum == null) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var d = env.data;
+      var src = d.report_source === 'mohtel' ? 'Gaza Ministry of Health'
+        : d.report_source === 'gmotel' ? 'Gaza Government Media Office'
+        : d.report_source === 'unocha' ? 'Gaza Ministry of Health, via UNOCHA'
+        : (d.report_source || 'Gaza Ministry of Health');
+      var period = d.report_period === 24 ? 'last 24-hour report'
+        : d.report_period === 48 ? 'last 48-hour report'
+        : 'latest report';
+      var num = function (n) { return Number(n).toLocaleString('en-US'); };
+      var html = gsStaleNote(env);
+      html += '<div class="gs-gaza"><strong>Reported killed: '
+        + gsEsc(num(d.killed_cum)) + '</strong>'
+        + '<div>Reported injured: ' + gsEsc(num(d.injured_cum)) + '</div>'
+        + '<div>Newly reported (' + period + '): '
+        + gsEsc(num(d.killed)) + ' killed, ' + gsEsc(num(d.injured)) + ' injured</div>'
+        + '<small>Source: ' + gsEsc(src) + ', via Tech for Palestine · Report date: '
+        + gsEsc(d.report_date) + '</small></div>';
+      el.innerHTML = html;
+    });
+  }
+
   /* ---------------- hadith (UmmahAPI: direct first, proxy fallback) ------ */
   // No key needed. Direct browser call first; if it fails (e.g. CORS), the
   // proxy fetches the same data server-side. Both paths show real data or
@@ -632,7 +664,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     news: renderNews, cricket: renderCricket, football: renderFootball,
     flights: renderFlights, webcams: renderWebcams, apod: renderApod,
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
-    hadith: renderHadith, stocks: renderStocks
+    hadith: renderHadith, stocks: renderStocks, gaza: renderGaza
   };
 })();
 
@@ -1248,6 +1280,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     GS.news(g('gs-news-' + b), b);
   });
   GS.gdacs(g('gs-gdacs'));
+  GS.gaza(g('gs-gaza'));
   GS.stocks(g('gs-stocks'));
   GS.hadith(g('gs-hadith'));
   GS.cricket(g('gs-cricket'));
