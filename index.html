@@ -556,6 +556,38 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
 
+  /* ---------------- opensky ---------------- */
+  // Live flights near Pakistan, routed through the Worker proxy: OpenSky's
+  // CORS header only allows its own website, so a browser fetch from the
+  // page is blocked even though the feed answers fine. The Worker fetches
+  // server-side (whole-country bbox) and returns compact states.
+  function renderOpenSky(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading flights…</p>';
+    gsGet('opensky', {}).then(function (env) {
+      if (!env.ok || !env.data || !env.data.states || !env.data.states.length) {
+        /* Honest note, not a generic error: BOTH routes to OpenSky were
+           verified blocked — browser reads by OpenSky's own CORS header,
+           and the server route by a persistent 522 from Cloudflare's
+           network to OpenSky. If the 522 clears, this card recovers on
+           its own (the server endpoint stays live). */
+        el.innerHTML = '<p>Live flights near Pakistan are temporarily unavailable: OpenSky blocks browser reads, and our server currently cannot reach OpenSky either (connection error). The Aviationstack flights card in this section still works.</p>';
+        return;
+      }
+      var html = gsStaleNote(env)
+        + '<div><b>Aircraft over the region now:</b> ' + gsEsc(String(env.data.total || env.data.states.length)) + '</div>';
+      env.data.states.slice(0, 10).forEach(function (s) {
+        var map = (typeof s.lat === 'number' && typeof s.lon === 'number')
+          ? ' <a href="https://maps.google.com/?q=' + s.lat + ',' + s.lon + '" target="_blank" rel="noopener">Map</a>' : '';
+        html += '<div><b>' + gsEsc(s.callsign || '—') + '</b> <span class="small">from ' + gsEsc(s.country || '—')
+          + ' · alt ' + (s.alt != null ? gsEsc(String(Math.round(s.alt))) + ' m' : '—')
+          + ' · speed ' + (s.vel != null ? gsEsc(String(Math.round(s.vel * 3.6))) + ' km/h' : '—')
+          + (s.on_ground ? ' · on ground' : '') + map + '</span></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
   /* ---------------- webcams ---------------- */
   // Free-tier image URLs expire in ~10 minutes (Windy V3 docs), so the
   // proxy fetches them fresh on every page load — never cached. Every card
@@ -801,7 +833,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     flights: renderFlights, webcams: renderWebcams, apod: renderApod,
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
     hadith: renderHadith, stocks: renderStocks, gaza: renderGaza,
-    aljazeera: renderAljazeera, ships: renderShips
+    aljazeera: renderAljazeera, ships: renderShips, openSky: renderOpenSky
   };
 })();
 
@@ -1273,17 +1305,11 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       }).catch(function () {
         $("issPos").innerHTML = "<span class='err'>ISS feed unreachable right now. No position is shown rather than a guessed one — try again later.</span>";
       });
-    fetchJSON("https://opensky-network.org/api/states/all?lamin=20&lomin=60&lamax=30&lomax=75")
-      .then(function (d) {
-        var states = (d.states || []).slice(0, 10);
-        if (!states.length) throw new Error("empty");
-        $("flightList").innerHTML = "<div><b>Aircraft over the region now:</b> " + d.states.length + "</div>" +
-          states.map(function (s) {
-            return "<div><b>" + esc(s[1] || "—") + "</b> <span class='small'>from " + esc(s[2] || "—") + " · alt " + (s[7] ? fmt(s[7], 0) + " m" : "—") + " · speed " + (s[9] ? fmt(s[9] * 3.6, 0) + " km/h" : "—") + "</span></div>";
-          }).join("");
-      }).catch(function () {
-        $("flightList").innerHTML = "<span class='err'>Live OpenSky feed cannot load in this browser: OpenSky only allows its own website to read its feed, so this page is blocked from it (the feed itself answers fine — the block is on the browser side). No flights are shown rather than invented ones. The working Aviationstack flights card is also in the Travel section.</span>";
-      });
+    /* OpenSky "flights near Pakistan" is NOT fetched here anymore: OpenSky's
+       CORS header only allows its own website, so a browser fetch is
+       blocked. The card (#flightList) is now rendered by GS.openSky in the
+       proxy renderer, which reads the Worker 'opensky' endpoint
+       (server-side fetch, whole-country bbox). The inline init calls it. */
     fetchJSON("https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=5")
       .then(function (d) {
         $("launchList").innerHTML = d.results.map(function (l) {
@@ -1433,6 +1459,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   loadFootball();
   GS.flights(g('gs-flights'));
   GS.ships(g('gs-ships'));
+  GS.openSky(g('flightList'));
   GS.webcams(g('gs-webcams'), { limit: 8 });
   GS.apod(g('gs-apod'));
   GS.tmdb(g('gs-tmdb'), 'movie');
