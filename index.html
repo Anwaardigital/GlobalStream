@@ -95,6 +95,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 </div>
 <div class="grid">
 <div class="mini feat" data-kw="palestine news"><b>Palestine news</b><div id="gs-news-palestine">Loading…</div></div>
+<div class="mini feat" data-kw="al jazeera palestine news"><b>Al Jazeera — Palestine</b><div id="gs-aljazeera">Loading…</div><p class="small">Source: Al Jazeera.</p></div>
 </div>
 </section>
 
@@ -629,6 +630,31 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
 
+  /* ---------------- Al Jazeera — Palestine (own RSS, filtered) ---------- */
+  // Headlines link to the original Al Jazeera articles. An empty result is
+  // not an error: it means the latest world feed holds no Palestine story.
+  function renderAljazeera(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading Al Jazeera…</p>';
+    /* v=2: bypasses the cached first-fetch response, which used the old
+       substring keyword filter (it wrongly matched 'Bahamas' and truces). */
+    gsGet('aljazeera', { v: '2' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.articles) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      if (!env.data.articles.length) {
+        el.innerHTML = '<p>No Palestine stories in the latest Al Jazeera feed right now.</p>'; return;
+      }
+      var html = gsStaleNote(env);
+      env.data.articles.forEach(function (a) {
+        html += '<div><a href="' + gsEsc(a.link) + '" target="_blank" rel="noopener">'
+          + gsEsc(a.title) + '</a>'
+          + '<small> · ' + gsTime(a.publishedAt) + ' · Source: Al Jazeera</small></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
   /* ---------------- hadith (UmmahAPI: direct first, proxy fallback) ------ */
   // No key needed. Direct browser call first; if it fails (e.g. CORS), the
   // proxy fetches the same data server-side. Both paths show real data or
@@ -695,7 +721,8 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     news: renderNews, cricket: renderCricket, football: renderFootball,
     flights: renderFlights, webcams: renderWebcams, apod: renderApod,
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
-    hadith: renderHadith, stocks: renderStocks, gaza: renderGaza
+    hadith: renderHadith, stocks: renderStocks, gaza: renderGaza,
+    aljazeera: renderAljazeera
   };
 })();
 
@@ -1312,6 +1339,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   });
   GS.gdacs(g('gs-gdacs'));
   GS.gaza(g('gs-gaza'));
+  GS.aljazeera(g('gs-aljazeera'));
   GS.stocks(g('gs-stocks'));
   GS.hadith(g('gs-hadith'));
   GS.cricket(g('gs-cricket'));
