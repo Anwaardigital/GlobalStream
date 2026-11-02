@@ -83,10 +83,21 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="ticker" id="ticker">Loading live data…</div>
 
 <nav class="secnav">
-<a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a>
+<a href="#palestine">Palestine</a><a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a>
 </nav>
 
 <main>
+<!-- ============ PALESTINE ============ -->
+<section class="card" id="palestine">
+<h2>Palestine</h2>
+<div class="phase2 feat" data-kw="palestine gaza board">
+<b>Gaza live board — reported casualties</b><div id="gs-gaza">Loading…</div>
+</div>
+<div class="grid">
+<div class="mini feat" data-kw="palestine news"><b>Palestine news</b><div id="gs-news-palestine">Loading…</div></div>
+</div>
+</section>
+
 <!-- ============ NEWS ============ -->
 <section class="card" id="news">
 <h2>News</h2>
@@ -99,9 +110,6 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <label>Search books <input id="bookQ" type="text" placeholder="e.g. history"></label>
 <button class="primary" type="button" id="bookBtn">Search</button>
 <div id="bookSearch"></div></div>
-</div>
-<div class="phase2 feat" data-kw="palestine gaza board">
-<b>Gaza live board — reported casualties</b><div id="gs-gaza">Loading…</div>
 </div>
 <div class="grid">
 <div class="mini feat" data-kw="headlines top news"><b>Top headlines</b><div id="gs-news-general">Loading…</div></div>
@@ -116,7 +124,6 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="mini feat" data-kw="mou agreement news"><b>Agreements &amp; MoUs</b><div id="gs-news-mou">Loading…</div></div>
 <div class="mini feat" data-kw="oil energy news"><b>Oil &amp; energy news</b><div id="gs-news-oil">Loading…</div></div>
 <div class="mini feat" data-kw="crypto news"><b>Crypto news</b><div id="gs-news-crypto">Loading…</div></div>
-<div class="mini feat" data-kw="palestine news"><b>Palestine news</b><div id="gs-news-palestine">Loading…</div></div>
 <div class="mini feat" data-kw="war news conflicts gdelt"><b>War news (GDELT)</b><div id="gs-news-war">Loading…</div></div>
 <div class="mini feat" data-kw="disaster alert gdacs earthquake flood"><b>Disaster alerts (GDACS)</b><div id="gs-gdacs">Loading…</div><p class="small">Source: GDACS (public domain).</p></div>
 </div>
@@ -293,7 +300,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 
 <footer>
 <p><b>GlobalStream</b> by Anwaar Digital — the world, live.</p>
-<p class="small">Phase 2: live no-key feeds plus keyed feeds (news, sports, films, videos, webcams, space picture, disasters, hadith) served through a server-side proxy. Phase 3: Gaza live board — reported casualties from the Gaza Ministry of Health via Tech for Palestine, with the report date shown. No API keys are used anywhere on this page — keys stay on the proxy server. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
+<p class="small">Phase 2: live no-key feeds plus keyed feeds (news, sports, films, videos, webcams, space picture, disasters, hadith) served through a server-side proxy. Phase 3: Palestine section with the Gaza live board — reported casualties from the Gaza Ministry of Health via Tech for Palestine, with the report date shown. No API keys are used anywhere on this page — keys stay on the proxy server. Figures marked "estimate" are calculations, not live measurements. No EMI calculator, no BMI calculator, no translation tool, no horoscope — by design.</p>
 </footer>
 
 <script>
@@ -587,9 +594,11 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         : 'latest report';
       var num = function (n) { return Number(n).toLocaleString('en-US'); };
       var html = gsStaleNote(env);
-      html += '<div class="gs-gaza"><strong>Reported killed: '
-        + gsEsc(num(d.killed_cum)) + '</strong>'
-        + '<div>Reported injured: ' + gsEsc(num(d.injured_cum)) + '</div>'
+      html += '<div class="gs-gaza">'
+        + '<div><span style="font-size:2em;font-weight:bold">'
+        + gsEsc(num(d.killed_cum)) + '</span> reported killed</div>'
+        + '<div><span style="font-size:2em;font-weight:bold">'
+        + gsEsc(num(d.injured_cum)) + '</span> reported injured</div>'
         + '<div>Newly reported (' + period + '): '
         + gsEsc(num(d.killed)) + ' killed, ' + gsEsc(num(d.injured)) + ' injured</div>'
         + '<small>Source: ' + gsEsc(src) + ', via Tech for Palestine · Report date: '
