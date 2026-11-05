@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>Piyasa özeti</b><div id="cryptoGlobal">Yükleniyor…</div><div id="fng">Yükleniyor…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Döviz kurları (1 USD =)</b><div id="fxRates">Yükleniyor…</div><p class="small">Kaynak: exchangerate-api.com ücretsiz akışı.</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>Altın ve gümüş (uluslararası spot)</b><div id="goldRates">Yükleniyor…</div><p class="small">Spot fiyat, yerel sarraf fiyatı DEĞİL. Tola başına 1 tola = 11.6638 g kullanılır.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>USD 30 günlük grafik (EUR ve GBP)</b><div id="fxChart">Yükleniyor…</div><p class="small">Kaynak: Frankfurter (ECB tabanlı). Frankfurter PKR/SAR/AED kapsamaz.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Döviz çevirici</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">Deniz ve güneş (Karaçi)</b><div id="wxMarine">Yükleniyor…</div><div id="wxSun">Yükleniyor…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>Dünya şehirleri</b><div id="wxCities">Yükleniyor…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>Bugün şehirlerde uç değerler</b><div id="wxExtremes">Yükleniyor…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>Ne giymeli (Karaçi)</b><div id="wxClothes">Yükleniyor…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">Ne giymeli (Karaçi)</b><div id="wxClothes">Yükleniyor…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>Hava radarı</b><div id="wxRadar">Yükleniyor…</div><p class="small">Harita görünümü Phase 2 harita yükseltmesiyle gelecek. Aşağıdaki zaman damgası canlı RainViewer verisidir.</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);
