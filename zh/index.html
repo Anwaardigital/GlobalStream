@@ -226,10 +226,10 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="grid">
 <div class="mini feat" data-kw="your city weather prayer times"><b>Your city</b><div><select id="gsCityPick" style="font-size:16px;padding:6px"></select></div><p class="small">Weather &amp; prayer times below are for <b id="gsCityLabel">Karachi</b>. Saved on this device.</p></div>
 <div class="mini feat" data-kw="karachi weather now"><b id="wxNowH">卡拉奇——现在</b><div id="wxNow">加载中…</div></div>
-<div class="mini feat" data-kw="forecast 7 days"><b>卡拉奇——7 天预报</b><div id="wxForecast">加载中…</div></div>
-<div class="mini feat" data-kw="rain alert precipitation"><b>降雨警报（未来 12 小时，卡拉奇）</b><div id="wxRain">加载中…</div></div>
-<div class="mini feat" data-kw="uv index air quality aqi pollution"><b>紫外线与空气质量（卡拉奇）</b><div id="wxUvAqi">加载中…</div></div>
-<div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b>海洋与阳光（卡拉奇）</b><div id="wxMarine">加载中…</div><div id="wxSun">加载中…</div></div>
+<div class="mini feat" data-kw="forecast 7 days"><b id="fcH">卡拉奇——7 天预报</b><div id="wxForecast">加载中…</div></div>
+<div class="mini feat" data-kw="rain alert precipitation"><b id="rainH">降雨警报（未来 12 小时，卡拉奇）</b><div id="wxRain">加载中…</div></div>
+<div class="mini feat" data-kw="uv index air quality aqi pollution"><b id="uvH">紫外线与空气质量（卡拉奇）</b><div id="wxUvAqi">加载中…</div></div>
+<div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">海洋与阳光（卡拉奇）</b><div id="wxMarine">加载中…</div><div id="wxSun">加载中…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>世界城市</b><div id="wxCities">加载中…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>今日城市极值</b><div id="wxExtremes">加载中…</div></div>
 <div class="mini feat" data-kw="clothes advice what to wear"><b>穿什么（卡拉奇）</b><div id="wxClothes">加载中…</div></div>
@@ -241,13 +241,13 @@ gtag('config', 'G-T6WVGJVD4J');
 <section class="card" id="islam">
 <h2>礼拜与伊斯兰</h2>
 <div class="grid">
-<div class="mini feat" data-kw="prayer times namaz karachi"><b>礼拜时间——今日卡拉奇</b><div id="prayerToday">加载中…</div><div id="prayerNext"></div><p class="small">方法：University of Islamic Sciences, Karachi。来源：AlAdhan。</p></div>
-<div class="mini feat" data-kw="sehri iftar fasting hours"><b>封斋与开斋（卡拉奇）</b><div id="sehriIftar">加载中…</div></div>
+<div class="mini feat" data-kw="prayer times namaz karachi"><b id="prayerH">礼拜时间——今日卡拉奇</b><div id="prayerToday">加载中…</div><div id="prayerNext"></div><p class="small">方法：University of Islamic Sciences, Karachi。来源：AlAdhan。</p></div>
+<div class="mini feat" data-kw="sehri iftar fasting hours"><b id="sehriH">封斋与开斋（卡拉奇）</b><div id="sehriIftar">加载中…</div></div>
 <div class="mini feat" data-kw="hijri islamic date calendar"><b>今日伊斯兰历日期</b><div id="hijriDate">加载中…</div><div id="ramadanCount">加载中…</div><!-- GS-FUN-2026-11-05 -->
 <div id="eidFitrCount">Loading…</div><div id="eidAdhaCount">Loading…</div><div id="newYearCount">Loading…</div>
 </div>
 <div class="mini feat" data-kw="makkah madinah prayer times"><b>麦加与麦地那时间</b><div id="holyTimes">加载中…</div></div>
-<div class="mini feat" data-kw="monthly prayer calendar timetable"><b>月度礼拜日历（卡拉奇）</b><div id="prayerMonth">加载中…</div></div>
+<div class="mini feat" data-kw="monthly prayer calendar timetable"><b id="calH">月度礼拜日历（卡拉奇）</b><div id="prayerMonth">加载中…</div></div>
 <div class="mini feat" data-kw="quran verse of the day audio tilawat"><b>今日经文</b><div id="verseDay">加载中…</div><p class="small">音频：everyayah.com (Alafasy)。翻译：Muhammad Asad。</p></div>
 <div class="mini feat" data-kw="asma ul husna names of allah"><b>今日尊名——Asma ul Husna</b><div id="asmaDay">加载中…</div></div>
 <div class="mini feat" data-kw="dua supplication"><b>今日祈祷</b><div id="duaDay"></div></div>
@@ -255,7 +255,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <label>城市 <select id="qiblaCity"></select></label>
 <button class="primary" type="button" id="qiblaBtn">显示</button>
 <div id="qiblaOut"></div></div>
-<div class="mini feat" data-kw="makrooh forbidden prayer times zawal"><b>不宜礼拜时间（大约，卡拉奇）</b><div id="makrooh">加载中…</div><p class="small">大约：日出后 20 分钟，Dhuhr（zawal）前 10 分钟，日落前 20 分钟。</p></div>
+<div class="mini feat" data-kw="makrooh forbidden prayer times zawal"><b id="makH">不宜礼拜时间（大约，卡拉奇）</b><div id="makrooh">加载中…</div><p class="small">大约：日出后 20 分钟，Dhuhr（zawal）前 10 分钟，日落前 20 分钟。</p></div>
 <div class="mini feat" data-kw="hadith"><b>此时圣训</b><div id="gs-hadith">加载中…</div></div>
 </div>
 </section>
@@ -611,7 +611,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   }
   function renderShips(el) {
     if (!el) return;
-    el.innerHTML = '<p>正在加载船舶…</p>'
+    el.innerHTML = '<p id=\"gs-ship-loading\">正在加载船舶…</p>'
       + '<p><input id="gs-ship-q" type="text" placeholder="按名称搜索船舶…" style="width:70%"> '
       + '<button id="gs-ship-btn">搜索</button></p><div id="gs-ship-results"></div>';
     var results = document.getElementById('gs-ship-results');
@@ -630,6 +630,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
           env.data.vessels.forEach(function (v) { html += shipRow(v); });
         }
         results.innerHTML = html;
+        var ld = document.getElementById('gs-ship-loading'); if (ld) ld.remove();
       });
     }
     show({ bbox: SHIPS_HOME_BBOX }, 'Northern Arabian Sea / Gulf of Oman — nearest busy water to Pakistan.', true);
@@ -923,7 +924,8 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       el.innerHTML = gsStaleNote(env)
         + '<div><b>Petrol:</b> Rs ' + fmt(env.data.petrol, 2) + ' / litre</div>'
         + '<div><b>Diesel:</b> Rs ' + fmt(env.data.diesel, 2) + ' / litre</div>'
-        + (env.data.effective ? '<div class="small">Effective: ' + gsEsc(env.data.effective) + '</div>' : '');
+        + (env.data.effective ? '<div class="small">Effective: ' + gsEsc(env.data.effective) + '</div>' : '')
+        + (env.data.fallback ? '<div class="small">Last checked price — live feed unavailable right now.</div>' : '');
     }).catch(function () { el.innerHTML = '<span class="err">Fuel prices unavailable right now.</span>'; });
   }
   var GS_SUDOKU = [{"p": "050802307000307500009014000000005040004600000590100003640200751100486239903700000", "s": "451862397286397514739514862362975148814623975597148623648239751175486239923751486"}, {"p": "062090107001006403930007006000000600400309708287045010300971000010802030000000071", "s": "562493187871256493934187256193728645456319728287645319345971862719862534628534971"}, {"p": "083406000005089400604500000850930070009607005000000900001765002308090000007023149", "s": "983416527275389461614572398852931674139647285746258913491765832328194756567823149"}, {"p": "008017405500080100900002800206001500005208010010704680002030701090075000000420098", "s": "638917425524683179971542836286391547745268913319754682462839751893175264157426398"}, {"p": "070002038900003765013006000004530900050960000600804500009040051038005290000279000", "s": "576492138942183765813756429284531976351967842697824513729348651438615297165279384"}, {"p": "067190040000300092029005370082003060016428700030000400090210080008039000240000009", "s": "367192845854376192129845376482753961916428753735961428693214587578639214241587639"}, {"p": "020867051050040076678000920005001000000000010010700563500003497000079680004050100", "s": "429867351153942876678315924365291748847536219912784563586123497231479685794658132"}, {"p": "002140000800007400100800076528060039700013020031580047010000000380250010060001003", "s": "672149358853627491194835276528764139746913825931582647417398562389256714265471983"}, {"p": "040060010030042050900030720080104000000000100104290508307420080058000400409600371", "s": "742965813831742956965831724583174269296583147174296538317429685658317492429658371"}, {"p": "014059000070061005003020010061900000009000108300186900040090007080000200932078541", "s": "614359872278461395593827416861945723459732168327186954145293687786514239932678541"}, {"p": "005000094024085617167004080050030409070000500009000701096802050080003070500006800", "s": "835617294924385617167294385258731469371469528649528731796842153482153976513976842"}, {"p": "007080000040369002000002010704803065650700080009005071003950107200408006000007308", "s": "527184639148369752396572814714893265652741983839625471483956127271438596965217348"}, {"p": "260007100750319628000860004080000000100036800000085410020003086070600005096020001", "s": "268457193754319628913862574582741369147936852639285417425173986371698245896524731"}, {"p": "082607500000000082000800060950400200278069043100000006004000600615243807800006020", "s": "482697531769315482531824769956431278278569143143782956324978615615243897897156324"}, {"p": "800350017005070896217000005021800740089407000000200000104009000000701900902000174", "s": "896354217435172896217968435621895743589437621743216589174629358358741962962583174"}, {"p": "000000060073692005000040000000080120001564800000010650017420038462000791305900006", "s": "854137962173692485629845317546783129291564873738219654917426538462358791385971246"}, {"p": "603020850002018040000406000730200410000064730010000520360950080100000005290001307", "s": "643729851972518643851436972739285416528164739416397528367952184184673295295841367"}, {"p": "004008671930000002107020009025000064400205007003000200380760000000830790679401000", "s": "254398671938617542167524389825973164416285937793146258382769415541832796679451823"}, {"p": "083570062200130470047000830000020014000056300030000650009080006000645003600002107", "s": "183574962296138475547269831965823714471956328832417659329781546718645293654392187"}, {"p": "053968070007513980608200501000030408009102000005400020000300860500700300000006709", "s": "153968274427513986698247531712635498849172653365489127974321865586794312231856749"}, {"p": "067200080002100060000765039200301807103800090000600300025900408010000500804500013", "s": "567239184932184765481765239296341857143857692758692341625913478319478526874526913"}, {"p": "071094200263001000500263000600030008000008005900000030356027400489306007107009000", "s": "871594263263871594594263871645732918732918645918645732356127489489356127127489356"}, {"p": "080402039005000080930800502090700300174230890020986000410093708300000000800000900", "s": "781452639245369187936817542698741325174235896523986471412593768359678214867124953"}, {"p": "308400050000000104007620900860701020731542698000869000900003700100000500004900001", "s": "398417256625398174417625983869731425731542698542869317956183742183274569274956831"}, {"p": "076800052905476031000005407390040000607000504500607319000050200000200780000700100", "s": "476813952925476831813925467391542678687391524542687319738159246159264783264738195"}, {"p": "100590003900320800000000000002041057401759200070002046720100069690070000000960570", "s": "148596723956327814237418695382641957461759238579832146725183469694275381813964572"}, {"p": "008691347600003820000008060010530008000704253002006470809067000040000000160000902", "s": "258691347691473825473258169714532698986714253532986471829167534345829716167345982"}, {"p": "461300295205000300370200400027104006806002100000003007000008003600035012003001080", "s": "461387295295416378378259461527194836836572149149863527912648753684735912753921684"}, {"p": "806021300010039600090004200435000009000070500927053001080090006009640100004218000", "s": "846721395712539648593864217435186729168972534927453861281397456379645182654218973"}, {"p": "000040008020000000700508016060030805000461300207005040002609034004802069609304002", "s": "196743258528196473743528916461237895985461327237985641872659134314872569659314782"}];
@@ -1794,7 +1796,22 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 
   /* ---------- init ---------- */
   loadCrypto(); loadFX(); var gsCity = localStorage.getItem("gs-city") || "Karachi"; if (!CITIES[gsCity]) gsCity = "Karachi"; loadWeather(gsCity); loadIslam(gsCity);
-  /* GS-REPEAT-2026-11-05: city selector — weather & prayer follow the city */
+  /* GS-FIX-2026-11-05: city selector — weather & prayer follow the city,
+     including the section headings (they used to stay on Karachi). */
+  var GS_KARACHI = "Karachi";
+  function gsSetCity(city) {
+    var prev = gsCity; gsCity = city;
+    localStorage.setItem("gs-city", city);
+    loadWeather(city); loadIslam(city);
+    var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = el.textContent.split(oldTok).join(city);
+    });
+    var lab = document.getElementById("gsCityLabel");
+    if (lab) lab.textContent = city;
+  }
   (function () {
     var sel = document.getElementById("gsCityPick");
     if (!sel) return;
@@ -1802,14 +1819,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o);
     });
     sel.value = gsCity;
-    sel.addEventListener("change", function () {
-      gsCity = sel.value; localStorage.setItem("gs-city", gsCity);
-      loadWeather(gsCity); loadIslam(gsCity);
-      var h = document.getElementById("wxNowH");
-      if (h) { var i = h.textContent.indexOf(" — "); h.textContent = i >= 0 ? gsCity + h.textContent.slice(i) : gsCity; }
-      var lab = document.getElementById("gsCityLabel");
-      if (lab) lab.textContent = gsCity;
-    });
+    sel.addEventListener("change", function () { gsSetCity(sel.value); });
     var lab = document.getElementById("gsCityLabel");
     if (lab) lab.textContent = gsCity;
   })();
