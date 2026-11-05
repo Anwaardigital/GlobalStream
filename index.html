@@ -467,7 +467,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         q += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
       });
     }
-    return fetch(GS_PROXY + '?' + q).then(function (r) { return r.json(); })
+    return fetch(GS_PROXY + '?' + q, { cache: 'no-store' }).then(function (r) { return r.json(); })
       .catch(function () { return { ok: false, error: 'network' }; });
   }
 
