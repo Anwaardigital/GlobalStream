@@ -935,17 +935,20 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     if (typeof L === 'undefined') {
       el.innerHTML = '<p>Map library could not load — please refresh the page.</p>'; return;
     }
-    el.innerHTML = '<p>Loading live map…</p>';
-    var map = L.map(el).setView([25, 60], 3);
+    el.innerHTML = '';
+    var map = L.map(el).setView([24, 62], 4);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 10,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+    setTimeout(function () { map.invalidateSize(); }, 400);
+    map.on('load', function () { map.invalidateSize(); });
     gsGet('ships', { bbox: '22,57,26,66' }).then(function (env) {
       if (env.ok && env.data && env.data.vessels) {
         env.data.vessels.forEach(function (v) {
           if (typeof v.lat === 'number' && typeof v.lon === 'number') {
-            L.marker([v.lat, v.lon]).addTo(map).bindPopup('<b>' + gsEsc(v.name || 'Ship') + '</b><br>'
+            L.circleMarker([v.lat, v.lon], { radius: 6, color: '#1565c0', fillColor: '#42a5f5', fillOpacity: 0.9 })
+              .addTo(map).bindPopup('<b>' + gsEsc(v.name || 'Ship') + '</b><br>'
               + gsEsc(v.flag || '') + ' · ' + gsEsc(String(v.sog == null ? '' : v.sog)) + ' kn');
           }
         });
@@ -955,7 +958,8 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       if (env.ok && env.data && env.data.states) {
         env.data.states.slice(0, 60).forEach(function (s) {
           if (typeof s.lat === 'number' && typeof s.lon === 'number') {
-            L.marker([s.lat, s.lon]).addTo(map).bindPopup('<b>' + gsEsc(s.callsign || 'Flight') + '</b><br>'
+            L.circleMarker([s.lat, s.lon], { radius: 5, color: '#b71c1c', fillColor: '#ef5350', fillOpacity: 0.9 })
+              .addTo(map).bindPopup('<b>' + gsEsc(s.callsign || 'Flight') + '</b><br>'
               + gsEsc(s.country || ''));
           }
         });
