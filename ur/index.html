@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>مارکیٹ کا جائزہ</b><div id="cryptoGlobal">لوڈ ہو رہا ہے…</div><div id="fng">لوڈ ہو رہا ہے…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>کرنسی ریٹس (1 USD =)</b><div id="fxRates">لوڈ ہو رہا ہے…</div><p class="small">ماخذ: exchangerate-api.com مفت فیڈ۔</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>سونا اور چاندی (بین الاقوامی اسپاٹ)</b><div id="goldRates">لوڈ ہو رہا ہے…</div><p class="small">اسپاٹ قیمت، مقامی صرافہ ریٹ نہیں۔ فی تولہ 1 tola = 11.6638 g استعمال ہوتا ہے۔</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>USD کا 30 دن کا چارٹ (EUR اور GBP)</b><div id="fxChart">لوڈ ہو رہا ہے…</div><p class="small">ماخذ: Frankfurter (ECB پر مبنی)۔ Frankfurter میں PKR/SAR/AED شامل نہیں ہیں۔</p></div>
 <div class="mini feat" data-kw="currency converter"><b>کرنسی کنورٹر</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">سمندر اور دھوپ (کراچی)</b><div id="wxMarine">لوڈ ہو رہا ہے…</div><div id="wxSun">لوڈ ہو رہا ہے…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>دنیا کے شہر</b><div id="wxCities">لوڈ ہو رہا ہے…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>آج شہروں کی انتہائیں</b><div id="wxExtremes">لوڈ ہو رہا ہے…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>کیا پہنیں (کراچی)</b><div id="wxClothes">لوڈ ہو رہا ہے…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">کیا پہنیں (کراچی)</b><div id="wxClothes">لوڈ ہو رہا ہے…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>موسمی ریڈار</b><div id="wxRadar">لوڈ ہو رہا ہے…</div><p class="small">نقشے کا منظر Phase 2 کی اپ گریڈ کے ساتھ آئے گا۔ نیچے دیا گیا وقت RainViewer کا براہ راست ڈیٹا ہے۔</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);
