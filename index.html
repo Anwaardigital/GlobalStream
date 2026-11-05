@@ -65,6 +65,10 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 .grid>*{min-width:0}
 .mini{min-width:0;overflow:hidden;overflow-wrap:break-word;word-wrap:break-word}
 #verseDay>div:first-child{direction:rtl;text-align:right;font-size:20px;line-height:1.9;overflow-wrap:break-word;word-break:break-word}
+/* GS-CAL-FIX-2026-11-05: the Monthly prayer calendar table (6 columns) is wider than its card; the verse fix's .mini{overflow:hidden} was clipping the Isha and Date columns. Let the calendar scroll horizontally inside its own card instead. */
+#prayerMonth{overflow-x:auto}
+#prayerMonth table{font-size:13px}
+#prayerMonth th,#prayerMonth td{padding:5px 6px;white-space:nowrap}
 </style>
 <link rel="alternate" hreflang="en" href="https://globalstream.anwaardigital.com/">
 <link rel="alternate" hreflang="ar" href="https://globalstream.anwaardigital.com/ar/">
@@ -515,6 +519,25 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       .catch(function () { return { ok: false, error: 'network' }; });
   }
 
+  /* GS-STREAK-FIX-2026-11-05: fetchJSON was only defined inside the Phase 1
+     script's private scope, but the Phase 2 renderers (events, sarafa) call
+     it. The boot threw ReferenceError at GS.events, so the streak (and every
+     renderer after it) never ran. Defined here too, same behaviour. */
+  function fetchJSON(url, timeout, _retry) {
+    var c = new AbortController();
+    var t = setTimeout(function () { c.abort(); }, timeout || 25000);
+    return fetch(url, { signal: c.signal }).then(function (r) {
+      clearTimeout(t);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).catch(function (e) {
+      clearTimeout(t);
+      if (!_retry) {
+        return new Promise(function (res) { setTimeout(res, 2000); }).then(function () { return fetchJSON(url, timeout, true); });
+      }
+      throw e;
+    });
+  }
   function gsErrorHTML() {
     return '<p class="gs-feed-error">This feed is temporarily unavailable. '
       + 'Please try again later.</p>';
@@ -2015,48 +2038,50 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 (function () {
   function g(id) { return document.getElementById(id); }
   if (!window.GS) return;
+  /* GS-STREAK-FIX-2026-11-05: one failing renderer must never abort the rest of the boot. A throw in GS.events used to kill the streak and every renderer after it. */
+  function safe(fn) { try { fn(); } catch (e) {} }
   function lazyLoad(el, fn) {
     if (!el) return;
-    if (!('IntersectionObserver' in window)) { fn(); return; }
+    if (!('IntersectionObserver' in window)) { safe(fn); return; }
     var done = false;
     var ob = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting && !done) { done = true; ob.disconnect(); fn(); }
+        if (e.isIntersecting && !done) { done = true; ob.disconnect(); safe(fn); }
       });
     }, { rootMargin: '200px' });
     ob.observe(el);
   }
   ['general','world','tech','sports','business','science','health','islamic','defence','mou','oil','crypto','palestine','war'].forEach(function (b) {
-    GS.news(g('gs-news-' + b), b);
+    safe(function () { GS.news(g('gs-news-' + b), b); });
   });
-  GS.gdacs(g('gs-gdacs'));
-  GS.gaza(g('gs-gaza'));
-  GS.aljazeera(g('gs-aljazeera'));
-  GS.stocks(g('gs-stocks'));
-  GS.hadith(g('gs-hadith'));
-  GS.cricket(g('gs-cricket'));
-  function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); GS.footballMatches(g('gs-football-matches'), g('gsFootballComp').value); }
-  g('gsFootballComp').addEventListener('change', loadFootball);
+  safe(function () { GS.gdacs(g('gs-gdacs')); });
+  safe(function () { GS.gaza(g('gs-gaza')); });
+  safe(function () { GS.aljazeera(g('gs-aljazeera')); });
+  safe(function () { GS.stocks(g('gs-stocks')); });
+  safe(function () { GS.hadith(g('gs-hadith')); });
+  safe(function () { GS.cricket(g('gs-cricket')); });
+  function loadFootball() { safe(function () { GS.football(g('gs-football'), g('gsFootballComp').value); GS.footballMatches(g('gs-football-matches'), g('gsFootballComp').value); }); }
+  safe(function () { var c = g('gsFootballComp'); if (c) c.addEventListener('change', loadFootball); });
   loadFootball();
   lazyLoad(g('gs-flights'), function () { GS.flights(g('gs-flights')); });
-  GS.ships(g('gs-ships'));
-  GS.livePlanes(g('flightList'));
+  safe(function () { GS.ships(g('gs-ships')); });
+  safe(function () { GS.livePlanes(g('flightList')); });
   lazyLoad(g('gs-webcams'), function () { GS.webcams(g('gs-webcams'), { limit: 8 }); });
-  GS.apod(g('gs-apod'));
-  GS.daily(g('gs-daily'));
+  safe(function () { GS.apod(g('gs-apod')); });
+  safe(function () { GS.daily(g('gs-daily')); });
   lazyLoad(g('gs-livemap'), function () { GS.livemap(g('gs-livemap')); });
-  GS.quiz(g('gs-quiz'));
-  GS.fuel(g('gs-fuel'));
-  GS.trending(g('gs-trending'));
-  GS.events(g('gs-events'));
-  GS.imageDay(g('gs-image-day'));
-  GS.sarafa(g('gs-sarafa'));
-  GS.hajj(g('gs-hajj'));
-  GS.streak(g('gs-streak'));
-  GS.sudoku(g('gs-sudoku'));
-  GS.alerts(g('gs-alerts'));
-  GS.tmdb(g('gs-tmdb'), 'movie');
-  GS.youtube(g('gs-youtube'), 'PK');
+  safe(function () { GS.quiz(g('gs-quiz')); });
+  safe(function () { GS.fuel(g('gs-fuel')); });
+  safe(function () { GS.trending(g('gs-trending')); });
+  safe(function () { GS.events(g('gs-events')); });
+  safe(function () { GS.imageDay(g('gs-image-day')); });
+  safe(function () { GS.sarafa(g('gs-sarafa')); });
+  safe(function () { GS.hajj(g('gs-hajj')); });
+  safe(function () { GS.streak(g('gs-streak')); });
+  safe(function () { GS.sudoku(g('gs-sudoku')); });
+  safe(function () { GS.alerts(g('gs-alerts')); });
+  safe(function () { GS.tmdb(g('gs-tmdb'), 'movie'); });
+  safe(function () { GS.youtube(g('gs-youtube'), 'PK'); });
 })();
 </script>
 <button class="primary" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:76px;right:16px;z-index:99">Back to top</button>
