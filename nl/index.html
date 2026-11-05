@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>Marktoverzicht</b><div id="cryptoGlobal">Laden…</div><div id="fng">Laden…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Wisselkoersen (1 USD =)</b><div id="fxRates">Laden…</div><p class="small">Bron: gratis feed van exchangerate-api.com.</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>Goud en zilver (internationale spot)</b><div id="goldRates">Laden…</div><p class="small">Spotprijs, NIET de lokale sarafa-koers. Per tola geldt 1 tola = 11.6638 g.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>USD-grafiek van 30 dagen (EUR en GBP)</b><div id="fxChart">Laden…</div><p class="small">Bron: Frankfurter (op ECB gebaseerd). Frankfurter dekt PKR/SAR/AED niet.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Valutaomzetter</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">Zee en zon (Karachi)</b><div id="wxMarine">Laden…</div><div id="wxSun">Laden…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>Wereldsteden</b><div id="wxCities">Laden…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>Stedelijke extremen vandaag</b><div id="wxExtremes">Laden…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>Wat dragen (Karachi)</b><div id="wxClothes">Laden…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">Wat dragen (Karachi)</b><div id="wxClothes">Laden…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>Weerradar</b><div id="wxRadar">Laden…</div><p class="small">De kaartweergave komt met de kaartupgrade van fase 2. De tijdstempel hieronder zijn live RainViewer-gegevens.</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);
