@@ -122,6 +122,8 @@ gtag('config', 'G-T6WVGJVD4J');
   ]
 }
 </script>
+<!-- GS-FUN-2026-11-05 -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 <header><div class="topbar">
@@ -164,6 +166,8 @@ gtag('config', 'G-T6WVGJVD4J');
 <section class="card" id="news">
 <h2>Nachrichten</h2>
 <div class="grid">
+<!-- GS-FUN-2026-11-05 -->
+<div class="mini feat" data-kw="today world summary top news"><b>Today in the world</b><div id="gs-daily">Loading…</div><p class="small">The 3 biggest stories right now, from the live news feed.</p></div>
 <div class="mini feat" data-kw="earthquake disaster alert"><b>Erdbeben — letzter Tag (USGS)</b><div id="quakeList">Wird geladen…</div></div>
 <div class="mini feat" data-kw="on this day history"><b>An diesem Tag in der Geschichte</b><div id="otdList">Wird geladen…</div><p class="small">Quelle: Wikipedia-On-This-Day-Feed.</p></div>
 <div class="mini feat" data-kw="war news conflicts"><b>Kriegsnachrichten — laufende Konflikte</b><div id="warNews">Wird geladen…</div></div>
@@ -235,7 +239,9 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="grid">
 <div class="mini feat" data-kw="prayer times namaz karachi"><b>Gebetszeiten — heute Karatschi</b><div id="prayerToday">Wird geladen…</div><div id="prayerNext"></div><p class="small">Methode: University of Islamic Sciences, Karachi. Quelle: AlAdhan.</p></div>
 <div class="mini feat" data-kw="sehri iftar fasting hours"><b>Sehri und Iftar (Karatschi)</b><div id="sehriIftar">Wird geladen…</div></div>
-<div class="mini feat" data-kw="hijri islamic date calendar"><b>Hijri-Datum heute</b><div id="hijriDate">Wird geladen…</div><div id="ramadanCount">Wird geladen…</div></div>
+<div class="mini feat" data-kw="hijri islamic date calendar"><b>Hijri-Datum heute</b><div id="hijriDate">Wird geladen…</div><div id="ramadanCount">Wird geladen…</div><!-- GS-FUN-2026-11-05 -->
+<div id="eidFitrCount">Loading…</div><div id="eidAdhaCount">Loading…</div><div id="newYearCount">Loading…</div>
+</div>
 <div class="mini feat" data-kw="makkah madinah prayer times"><b>Mekka- und Medina-Zeiten</b><div id="holyTimes">Wird geladen…</div></div>
 <div class="mini feat" data-kw="monthly prayer calendar timetable"><b>Monatlicher Gebetskalender (Karatschi)</b><div id="prayerMonth">Wird geladen…</div></div>
 <div class="mini feat" data-kw="quran verse of the day audio tilawat"><b>Vers des Tages</b><div id="verseDay">Wird geladen…</div><p class="small">Audio: everyayah.com (Alafasy). Übersetzung: Muhammad Asad.</p></div>
@@ -267,6 +273,9 @@ gtag('config', 'G-T6WVGJVD4J');
 <option value="CL">Champions League</option>
 </select></label>
 <div id="gs-football">Wird geladen…</div><p class="small">Quelle: Football-Data.org über serverseitigen Proxy.</p></div>
+<!-- GS-FUN-2026-11-05 -->
+<div class="mini feat" data-kw="football matches today live scores"><b>Football — today's matches</b><div id="gs-football-matches">Loading…</div><p class="small">Source: Football-Data.org via server-side proxy.</p></div>
+
 </div>
 </section>
 
@@ -295,6 +304,8 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="webcams live cameras windy"><b>Live-Webcams (Windy)</b><div id="gs-webcams">Wird geladen…</div><p class="small">Bilder werden bei jedem Seitenaufruf aktualisiert. Zeigt dieser Feed einen Fehler, wird die Windy-Verbindung gerade repariert — keine Beispielbilder werden gezeigt. Webcams von Windy.</p></div>
 <div class="mini feat" data-kw="space picture nasa apod"><b>Weltraumbild des Tages (NASA)</b><div id="gs-apod">Wird geladen…</div></div>
 </div>
+<!-- GS-FUN-2026-11-05 -->
+<div class="phase2 feat" data-kw="live map flights ships world"><b>Live world map — planes &amp; ships</b><div id="gs-livemap" style="height:340px"></div><p class="small">Planes (OpenSky) and ships (Open Waters AIS). Markers refresh on page load. Map data © OpenStreetMap contributors.</p></div>
 <div class="phase2 feat" data-kw="ship tracking vessels sea ais">
 <b>Live-Schiffe (Open Waters AIS)</b><div id="gs-ships">Wird geladen…</div>
 <p class="small">Daten: Open Waters AIS (openwaters.io), inkl. AISHub-Mitwirkendendaten. Küstenempfänger-Abdeckung — leere Gebiete bedeuten, dass dort kürzlich kein Schiff gehört wurde.</p>
@@ -342,6 +353,9 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="emergency numbers police rescue"><b>Notrufnummern</b><div id="emgBox"></div><p class="small">Lokale Nummern prüfen — sie variieren je nach Stadt und Land.</p></div>
 <div class="mini feat" data-kw="learn english urdu word"><b>Heute lernen</b><div id="learnBox"></div></div>
 <div class="mini feat" data-kw="day length year day number progress"><b>Tages- und Jahreszahlen</b><div id="dayNums"></div></div>
+<!-- GS-FUN-2026-11-05 -->
+<div class="mini feat" data-kw="quiz world trivia questions"><b>Daily quiz — how well do you know the world?</b><div id="gs-quiz">Loading…</div><p class="small">5 new questions every day. No sign-up, just play.</p></div>
+
 </div>
 </section>
 
@@ -413,6 +427,8 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="gs-langs" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;padding:8px 12px;font-size:14px">🌐 <a href="https://globalstream.anwaardigital.com/">English</a> · <a href="https://globalstream.anwaardigital.com/ar/">العربية</a> · <a href="https://globalstream.anwaardigital.com/hi/">हिन्दी</a> · <a href="https://globalstream.anwaardigital.com/ur/">اردو</a> · <a href="https://globalstream.anwaardigital.com/tr/">Türkçe</a> · <a href="https://globalstream.anwaardigital.com/fa/">فارسی</a> · <a href="https://globalstream.anwaardigital.com/es/">Español</a> · <a href="https://globalstream.anwaardigital.com/it/">Italiano</a> · <b>Deutsch</b> · <a href="https://globalstream.anwaardigital.com/nl/">Nederlands</a> · <a href="https://globalstream.anwaardigital.com/zh/">中文</a> · <a href="https://globalstream.anwaardigital.com/fr/">Français</a> · <a href="https://globalstream.anwaardigital.com/bn/">বাংলা</a> · <a href="https://globalstream.anwaardigital.com/pt/">Português</a> · <a href="https://globalstream.anwaardigital.com/ru/">Русский</a> · <a href="https://globalstream.anwaardigital.com/id/">Bahasa Indonesia</a></div>
 </footer>
 
+<!-- GS-FUN-2026-11-05 -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ==========================================================================
    GlobalStream — Phase 2 wiring (browser side)
@@ -687,7 +703,11 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     el.innerHTML = '<p>Weltraumbild wird geladen…</p>';
     gsGet('apod', {}).then(function (env) {
       if (!env.ok || !env.data || !env.data.url) {
-        el.innerHTML = gsErrorHTML(); return;
+        el.innerHTML = '<h4>The Earth seen from Apollo 17</h4>'
+          + '<img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" alt="The Earth seen from Apollo 17" loading="lazy">'
+          + '<p>NASA\'s picture feed is busy right now, so here is the famous "Blue Marble" photo of Earth, taken by the Apollo 17 crew in 1972.</p>'
+          + '<small>Photo: NASA / Apollo 17, via Wikimedia Commons</small>';
+        return;
       }
       var d = env.data;
       el.innerHTML = gsStaleNote(env)
@@ -888,6 +908,136 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     el.appendChild(s);
   }
 
+
+  /* ---------------- GS-FUN-2026-11-05: daily summary ---------------- */
+  function renderDailySummary(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading today\'s top stories…</p>';
+    gsGet('news', { beat: 'general', v: '2' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.articles || !env.data.articles.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = '<ol class="gs-daily-list">';
+      env.data.articles.slice(0, 3).forEach(function (a) {
+        html += '<li><a href="' + gsEsc(a.url) + '" target="_blank" rel="noopener">'
+          + gsEsc(a.title) + '</a>'
+          + (a.description ? '<br><span class="small">' + gsEsc(a.description) + '</span>' : '')
+          + '</li>';
+      });
+      el.innerHTML = html + '</ol><p class="small">Updated live · Sources: original publishers (NewsAPI).</p>';
+    });
+  }
+
+  /* ---------------- GS-FUN-2026-11-05: live world map ---------------- */
+  function renderLiveMap(el) {
+    if (!el) return;
+    if (typeof L === 'undefined') {
+      el.innerHTML = '<p>Map library could not load — please refresh the page.</p>'; return;
+    }
+    el.innerHTML = '<p>Loading live map…</p>';
+    var map = L.map(el).setView([25, 60], 3);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 10,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    gsGet('ships', { bbox: '22,57,26,66' }).then(function (env) {
+      if (env.ok && env.data && env.data.vessels) {
+        env.data.vessels.forEach(function (v) {
+          if (typeof v.lat === 'number' && typeof v.lon === 'number') {
+            L.marker([v.lat, v.lon]).addTo(map).bindPopup('<b>' + gsEsc(v.name || 'Ship') + '</b><br>'
+              + gsEsc(v.flag || '') + ' · ' + gsEsc(String(v.sog == null ? '' : v.sog)) + ' kn');
+          }
+        });
+      }
+    });
+    gsGet('opensky', {}).then(function (env) {
+      if (env.ok && env.data && env.data.states) {
+        env.data.states.slice(0, 60).forEach(function (s) {
+          if (typeof s.lat === 'number' && typeof s.lon === 'number') {
+            L.marker([s.lat, s.lon]).addTo(map).bindPopup('<b>' + gsEsc(s.callsign || 'Flight') + '</b><br>'
+              + gsEsc(s.country || ''));
+          }
+        });
+      } else {
+        var note = document.createElement('p');
+        note.className = 'small';
+        note.textContent = 'Live planes are unavailable right now (OpenSky feed blocked) — ships are shown.';
+        el.parentNode.appendChild(note);
+      }
+    });
+  }
+
+  /* ---------------- GS-FUN-2026-11-05: daily quiz ---------------- */
+  var GS_QUIZ_Q = [
+    { q: 'Which is the largest country in the world by area?', o: ['China', 'Canada', 'Russia', 'USA'], a: 2 },
+    { q: 'Which river is the longest in the world?', o: ['Amazon', 'Nile', 'Yangtze', 'Mississippi'], a: 1 },
+    { q: 'What is the capital of Australia?', o: ['Sydney', 'Melbourne', 'Canberra', 'Perth'], a: 2 },
+    { q: 'Which desert is the largest hot desert in the world?', o: ['Gobi', 'Sahara', 'Kalahari', 'Arabian'], a: 1 },
+    { q: 'Mount Everest sits on the border of Nepal and which country?', o: ['India', 'China', 'Bhutan', 'Pakistan'], a: 1 },
+    { q: 'Which ocean is the largest?', o: ['Atlantic', 'Indian', 'Arctic', 'Pacific'], a: 3 },
+    { q: 'What is the capital of Canada?', o: ['Toronto', 'Vancouver', 'Ottawa', 'Montreal'], a: 2 },
+    { q: 'Which country has the most natural lakes?', o: ['USA', 'Russia', 'Canada', 'Brazil'], a: 2 },
+    { q: 'The Great Wall is in which country?', o: ['Japan', 'China', 'Korea', 'Mongolia'], a: 1 },
+    { q: 'Which is the smallest continent?', o: ['Europe', 'Australia', 'Antarctica', 'Africa'], a: 1 }
+  ];
+  function renderQuiz(el) {
+    if (!el) return;
+    var day = Math.floor(Date.now() / 86400000);
+    var pick = [];
+    for (var i = 0; i < 5; i++) pick.push(GS_QUIZ_Q[(day + i) % GS_QUIZ_Q.length]);
+    var idx = 0, score = 0;
+    function show() {
+      if (idx >= pick.length) {
+        el.innerHTML = '<p class="big">Your score: ' + score + ' / ' + pick.length + '</p>'
+          + '<p>' + (score === pick.length ? 'Perfect! You know the world well.'
+            : score >= 3 ? 'Good job! Come back tomorrow for new questions.'
+            : 'Keep exploring GlobalStream and try again!') + '</p>'
+          + '<button class="primary" type="button" id="gs-quiz-again">Play again</button>';
+        document.getElementById('gs-quiz-again').addEventListener('click', function () {
+          idx = 0; score = 0; show();
+        });
+        return;
+      }
+      var cur = pick[idx];
+      var html = '<p><b>Question ' + (idx + 1) + ' of ' + pick.length + ':</b> ' + gsEsc(cur.q) + '</p>';
+      cur.o.forEach(function (opt, j) {
+        html += '<button class="primary gs-quiz-opt" type="button" data-i="' + j
+          + '" style="display:block;margin:4px 0">' + gsEsc(opt) + '</button>';
+      });
+      el.innerHTML = html;
+      var btns = el.querySelectorAll('.gs-quiz-opt');
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var chosen = parseInt(b.getAttribute('data-i'), 10);
+          if (chosen === cur.a) { score++; b.style.background = '#1d7a3d'; }
+          else { b.style.background = '#a33327'; btns[cur.a].style.background = '#1d7a3d'; }
+          btns.forEach(function (x) { x.disabled = true; });
+          setTimeout(function () { idx++; show(); }, 900);
+        });
+      });
+    }
+    show();
+  }
+
+  /* ---------------- GS-FUN-2026-11-05: football matches today ---------------- */
+  function renderFootballMatches(el, competition) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading today\'s matches…</p>';
+    gsGet('football', { competition: competition || 'PL', view: 'matches' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.matches) { el.innerHTML = gsErrorHTML(); return; }
+      if (!env.data.matches.length) {
+        el.innerHTML = '<p>No matches scheduled today in this league.</p>'; return;
+      }
+      var html = gsStaleNote(env);
+      env.data.matches.forEach(function (m) {
+        html += '<div><b>' + gsEsc(m.home) + ' vs ' + gsEsc(m.away) + '</b> '
+          + '<span class="small">' + gsEsc(m.status || '') + ' · ' + gsEsc(m.score || '')
+          + ' · ' + gsTime(m.utcDate) + '</span></div>';
+      });
+      el.innerHTML = html;
+    });
+  }
+
   /* ---------------- public API ---------------- */
   window.GS = {
     proxy: function () { return GS_PROXY; },
@@ -896,7 +1046,8 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     flights: renderFlights, webcams: renderWebcams, apod: renderApod,
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
     hadith: renderHadith, stocks: renderStocks, gaza: renderGaza,
-    aljazeera: renderAljazeera, ships: renderShips, openSky: renderOpenSky
+    aljazeera: renderAljazeera, ships: renderShips, openSky: renderOpenSky,
+    daily: renderDailySummary, livemap: renderLiveMap, quiz: renderQuiz, footballMatches: renderFootballMatches
   };
 })();
 
@@ -1204,6 +1355,30 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
             var days = Math.ceil((target - new Date()) / 86400000);
             $("ramadanCount").innerHTML = "<div><b>" + ramLabel + ":</b> " + gd.date + " (" + (days > 0 ? days + " days away" : "today / ongoing") + ")</div>";
           }).catch(function () { $("ramadanCount").innerHTML = "<span class='err'>Ramadan countdown unavailable.</span>"; });
+        /* GS-FUN-2026-11-05: Eid + New Year countdowns (AlAdhan, same source as Ramadan) */
+        (function () {
+          function gsCountdown(elId, hijriDay, hijriMonth, label) {
+            var el = $(elId); if (!el) return;
+            var targetYear = (hm > hijriMonth || (hm === hijriMonth && hd > hijriDay)) ? hy + 1 : hy;
+            fetchJSON("https://api.aladhan.com/v1/hToG/" + String(hijriDay).padStart(2, "0") + "-" + String(hijriMonth).padStart(2, "0") + "-" + targetYear)
+              .then(function (g) {
+                var gd = g.data.gregorian;
+                var target = new Date(parseInt(gd.year, 10), parseInt(gd.month.number, 10) - 1, parseInt(gd.date, 10));
+                var days = Math.ceil((target - new Date()) / 86400000);
+                el.innerHTML = "<div><b>" + label + ":</b> " + gd.date + " (" + (days > 0 ? days + " days away" : "today / ongoing") + ") · expected, moon sighting may change it</div>";
+              }).catch(function () { el.innerHTML = "<span class='err'>" + label + " countdown unavailable.</span>"; });
+          }
+          gsCountdown("eidFitrCount", 1, 10, "Eid al-Fitr");
+          gsCountdown("eidAdhaCount", 10, 12, "Eid al-Adha");
+          var nyEl = $("newYearCount");
+          if (nyEl) {
+            var now = new Date();
+            var nyTarget = new Date(now.getFullYear() + 1, 0, 1);
+            var nyDays = Math.ceil((nyTarget - now) / 86400000);
+            nyEl.innerHTML = "<div><b>New Year " + (now.getFullYear() + 1) + ":</b> 01 January " + (now.getFullYear() + 1) + " (" + nyDays + " days away)</div>";
+          }
+        })();
+
       }).catch(function () { setErr("prayerToday"); setErr("sehriIftar"); setErr("hijriDate"); });
     var now = new Date();
     fetchJSON("https://api.aladhan.com/v1/calendarByCity/" + now.getFullYear() + "/" + (now.getMonth() + 1) + "?city=Karachi&country=Pakistan&method=1")
@@ -1517,7 +1692,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   GS.stocks(g('gs-stocks'));
   GS.hadith(g('gs-hadith'));
   GS.cricket(g('gs-cricket'));
-  function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); }
+  function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); GS.footballMatches(g('gs-football-matches'), g('gsFootballComp').value); }
   g('gsFootballComp').addEventListener('change', loadFootball);
   loadFootball();
   GS.flights(g('gs-flights'));
@@ -1525,6 +1700,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   GS.openSky(g('flightList'));
   GS.webcams(g('gs-webcams'), { limit: 8 });
   GS.apod(g('gs-apod'));
+  GS.daily(g('gs-daily'));
+  GS.livemap(g('gs-livemap'));
+  GS.quiz(g('gs-quiz'));
   GS.tmdb(g('gs-tmdb'), 'movie');
   GS.youtube(g('gs-youtube'), 'PK');
 })();
