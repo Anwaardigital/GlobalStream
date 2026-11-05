@@ -60,6 +60,11 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 .gs-stale-note,.gs-credit{color:var(--muted);font-size:13px}
 .gs-cam{margin:8px 0}.gs-cam figcaption{font-size:13px;color:var(--muted)}
 
+
+/* GS-VERSE-FIX-2026-11-05: Verse of the day Arabic text was spilling out of its card and overlapping the Monthly prayer calendar table. Grid items must be allowed to shrink, long words must break, and cards must clip any residual overflow. */
+.grid>*{min-width:0}
+.mini{min-width:0;overflow:hidden;overflow-wrap:break-word;word-wrap:break-word}
+#verseDay>div:first-child{direction:rtl;text-align:right;font-size:20px;line-height:1.9;overflow-wrap:break-word;word-break:break-word}
 </style>
 <link rel="alternate" hreflang="en" href="https://globalstream.anwaardigital.com/">
 <link rel="alternate" hreflang="ar" href="https://globalstream.anwaardigital.com/ar/">
@@ -1847,6 +1852,18 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 (function () {
   function g(id) { return document.getElementById(id); }
   if (!window.GS) return;
+  /* GS-LAZY-2026-11-05: below-fold heavy widgets load only on scroll. */
+  function lazyLoad(el, fn) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var done = false;
+    var ob = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !done) { done = true; ob.disconnect(); fn(); }
+      });
+    }, { rootMargin: '200px' });
+    ob.observe(el);
+  }
   ['general','world','tech','sports','business','science','health','islamic','defence','mou','oil','crypto','palestine','war'].forEach(function (b) {
     GS.news(g('gs-news-' + b), b);
   });
@@ -1859,13 +1876,13 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); GS.footballMatches(g('gs-football-matches'), g('gsFootballComp').value); }
   g('gsFootballComp').addEventListener('change', loadFootball);
   loadFootball();
-  GS.flights(g('gs-flights'));
+  lazyLoad(g('gs-flights'), function () { GS.flights(g('gs-flights')); });
   GS.ships(g('gs-ships'));
   GS.livePlanes(g('flightList'));
-  GS.webcams(g('gs-webcams'), { limit: 8 });
+  lazyLoad(g('gs-webcams'), function () { GS.webcams(g('gs-webcams'), { limit: 8 }); });
   GS.apod(g('gs-apod'));
   GS.daily(g('gs-daily'));
-  GS.livemap(g('gs-livemap'));
+  lazyLoad(g('gs-livemap'), function () { GS.livemap(g('gs-livemap')); });
   GS.quiz(g('gs-quiz'));
   GS.fuel(g('gs-fuel'));
   GS.sudoku(g('gs-sudoku'));
