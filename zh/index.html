@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>市场概览</b><div id="cryptoGlobal">加载中…</div><div id="fng">加载中…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>汇率 (1 USD =)</b><div id="fxRates">加载中…</div><p class="small">来源：exchangerate-api.com 免费订阅。</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>黄金与白银（国际现货）</b><div id="goldRates">加载中…</div><p class="small">现货价格，不是当地金银市场价格。每托拉使用 1 tola = 11.6638 g。</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>美元 30 天图表 (EUR 与 GBP)</b><div id="fxChart">加载中…</div><p class="small">来源：Frankfurter（基于欧洲央行）。Frankfurter 不涵盖 PKR/SAR/AED。</p></div>
 <div class="mini feat" data-kw="currency converter"><b>货币转换器</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">海洋与阳光（卡拉奇）</b><div id="wxMarine">加载中…</div><div id="wxSun">加载中…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>世界城市</b><div id="wxCities">加载中…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>今日城市极值</b><div id="wxExtremes">加载中…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>穿什么（卡拉奇）</b><div id="wxClothes">加载中…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">穿什么（卡拉奇）</b><div id="wxClothes">加载中…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>天气雷达</b><div id="wxRadar">加载中…</div><p class="small">地图视图将随第二阶段地图升级推出。下面的时间戳是 RainViewer 的实时数据。</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);
