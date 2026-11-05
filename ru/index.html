@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>Обзор рынка</b><div id="cryptoGlobal">Загрузка…</div><div id="fng">Загрузка…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Курсы валют (1 USD =)</b><div id="fxRates">Загрузка…</div><p class="small">Источник: бесплатная лента exchangerate-api.com.</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>Золото и серебро (международный спот)</b><div id="goldRates">Загрузка…</div><p class="small">Спотовая цена, НЕ местный курс сарафа. На толу берётся 1 tola = 11,6638 г.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>График USD за 30 дней (EUR и GBP)</b><div id="fxChart">Загрузка…</div><p class="small">Источник: Frankfurter (на основе ЕЦБ). Frankfurter не охватывает PKR/SAR/AED.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Конвертер валют</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">Море и солнце (Карачи)</b><div id="wxMarine">Загрузка…</div><div id="wxSun">Загрузка…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>Города мира</b><div id="wxCities">Загрузка…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>Городские экстремумы сегодня</b><div id="wxExtremes">Загрузка…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>Что надеть (Карачи)</b><div id="wxClothes">Загрузка…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">Что надеть (Карачи)</b><div id="wxClothes">Загрузка…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>Метеорадар</b><div id="wxRadar">Загрузка…</div><p class="small">Вид карты появится с обновлением карты фазы 2. Метка времени ниже — живые данные RainViewer.</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);

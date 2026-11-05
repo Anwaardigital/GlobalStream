@@ -206,7 +206,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>Gambaran pasar</b><div id="cryptoGlobal">Memuat…</div><div id="fng">Memuat…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Kurs mata uang (1 USD =)</b><div id="fxRates">Memuat…</div><p class="small">Sumber: umpan gratis exchangerate-api.com.</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>Emas dan perak (spot internasional)</b><div id="goldRates">Memuat…</div><p class="small">Harga spot, BUKAN harga sarafa lokal. Per tola menggunakan 1 tola = 11,6638 g.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel">Loading…</div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>Grafik USD 30 hari (EUR dan GBP)</b><div id="fxChart">Memuat…</div><p class="small">Sumber: Frankfurter (berbasis ECB). Frankfurter tidak mencakup PKR/SAR/AED.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Konverter mata uang</b>
@@ -232,7 +232,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="sea waves marine sunrise sunset day length"><b id="sunH">Laut dan matahari (Karachi)</b><div id="wxMarine">Memuat…</div><div id="wxSun">Memuat…</div></div>
 <div class="mini feat" data-kw="world cities weather london new york dubai makkah delhi"><b>Kota-kota dunia</b><div id="wxCities">Memuat…</div></div>
 <div class="mini feat" data-kw="hottest coldest rainiest polluted city"><b>Ekstrem kota hari ini</b><div id="wxExtremes">Memuat…</div></div>
-<div class="mini feat" data-kw="clothes advice what to wear"><b>Apa yang dipakai (Karachi)</b><div id="wxClothes">Memuat…</div></div>
+<div class="mini feat" data-kw="clothes advice what to wear"><b id="wearH">Apa yang dipakai (Karachi)</b><div id="wxClothes">Memuat…</div></div>
 <div class="mini feat" data-kw="radar map rain"><b>Radar cuaca</b><div id="wxRadar">Memuat…</div><p class="small">Tampilan peta akan hadir dengan peningkatan peta Fase 2. Stempel waktu di bawah ini adalah data langsung RainViewer.</p></div>
 </div>
 </section>
@@ -1804,7 +1804,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     localStorage.setItem("gs-city", city);
     loadWeather(city); loadIslam(city);
     var oldTok = (prev === "Karachi") ? GS_KARACHI : prev;
-    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH"].forEach(function (id) {
+    ["wxNowH", "prayerH", "sehriH", "calH", "makH", "fcH", "rainH", "uvH", "sunH", "wearH"].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.textContent = el.textContent.split(oldTok).join(city);
