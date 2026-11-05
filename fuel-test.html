@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fuel fetch diagnostic (temporary)</title></head>
+<body>
+<h1>Fuel fetch diagnostic</h1>
+<pre id="out">Running tests…</pre>
+<script>
+(function () {
+  var out = document.getElementById('out');
+  var lines = ['origin: ' + location.origin, 'online: ' + navigator.onLine];
+  function log(s) { lines.push(s); out.textContent = lines.join('\n'); }
+  var URL = 'https://globalstream-proxy.malikanwaarapps.workers.dev/?endpoint=fuel';
+  // Test 1: exactly like the live page (gsGet with no-store)
+  fetch(URL, { cache: 'no-store' }).then(function (r) {
+    return r.text().then(function (t) { log('T1 no-store fetch: HTTP ' + r.status + ' body: ' + t.slice(0, 200)); });
+  }).catch(function (e) { log('T1 no-store fetch FAILED: ' + e); })
+  .then(function () {
+    // Test 2: plain fetch, no options (default cache)
+    return fetch(URL).then(function (r) {
+      return r.text().then(function (t) { log('T2 plain fetch: HTTP ' + r.status + ' body: ' + t.slice(0, 200)); });
+    }).catch(function (e) { log('T2 plain fetch FAILED: ' + e); });
+  })
+  .then(function () {
+    // Test 3: fetch the ships endpoint the same way (control — this one works on the live page)
+    return fetch('https://globalstream-proxy.malikanwaarapps.workers.dev/?endpoint=ships&bbox=22,57,26,66', { cache: 'no-store' }).then(function (r) {
+      return r.text().then(function (t) { log('T3 ships fetch: HTTP ' + r.status + ' body: ' + t.slice(0, 120)); });
+    }).catch(function (e) { log('T3 ships fetch FAILED: ' + e); });
+  })
+  .then(function () { log('DONE'); });
+})();
+</script>
+</body>
+</html>
