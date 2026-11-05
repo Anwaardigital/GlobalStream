@@ -60,6 +60,11 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 .gs-stale-note,.gs-credit{color:var(--muted);font-size:13px}
 .gs-cam{margin:8px 0}.gs-cam figcaption{font-size:13px;color:var(--muted)}
 
+
+/* GS-VERSE-FIX-2026-11-05: Verse of the day Arabic text was spilling out of its card and overlapping the Monthly prayer calendar table. Grid items must be allowed to shrink, long words must break, and cards must clip any residual overflow. */
+.grid>*{min-width:0}
+.mini{min-width:0;overflow:hidden;overflow-wrap:break-word;word-wrap:break-word}
+#verseDay>div:first-child{direction:rtl;text-align:right;font-size:20px;line-height:1.9;overflow-wrap:break-word;word-break:break-word}
 </style>
 <link rel="alternate" hreflang="en" href="https://globalstream.anwaardigital.com/">
 <link rel="alternate" hreflang="ar" href="https://globalstream.anwaardigital.com/ar/">
@@ -146,7 +151,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="ticker" id="ticker">Loading live data…</div>
 
 <nav class="secnav">
-<a href="#palestine">Palestine</a><a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a><a href="#about">About</a><a href="#contact">Contact</a>
+<a href="#palestine">Palestine</a><a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#pakistan">Pakistan</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a><a href="#about">About</a><a href="#contact">Contact</a>
 </nav>
 
 <main>
@@ -165,10 +170,19 @@ gtag('config', 'G-T6WVGJVD4J');
 <!-- ============ NEWS ============ -->
 <section class="card" id="news">
 <h2>News</h2>
+<!-- GS-WAVE2-2026-11-05: static top headlines so search engines do not see an empty news section. Snapshot from Al Jazeera's live feed, 5 November 2026; fresh headlines load below. -->
+<div class="mini feat" data-kw="top headlines today"><b>Top stories today — 5 November 2026</b>
+<ol>
+<li><a href="https://www.aljazeera.com/news/2026/11/5/joint-list-says-it-will-back-eisenkot-to-form-israels-next-government?traffic_source=rss" target="_blank" rel="noopener">Joint List says it will back Eisenkot to form Israel's next government</a> <span class="small">— Al Jazeera</span></li>
+<li><a href="https://www.aljazeera.com/news/2026/11/5/four-people-including-a-child-killed-in-israeli-attacks-on-gaza?traffic_source=rss" target="_blank" rel="noopener">Four people, including a child, killed in Israeli attacks on Gaza</a> <span class="small">— Al Jazeera</span></li>
+<li><a href="https://www.aljazeera.com/news/2026/11/5/iran-gaza-ukraine-what-will-us-midterm-results-mean-for-these-conflicts?traffic_source=rss" target="_blank" rel="noopener">Iran, Gaza, Ukraine: What will US midterm results mean for these conflicts?</a> <span class="small">— Al Jazeera</span></li>
+</ol>
+<p class="small">Snapshot from Al Jazeera's live feed, 5 November 2026. Fresh headlines load below when the news feed responds.</p></div>
 <div class="grid">
 <div class="mini feat" data-kw="breaking news alerts"><b>Breaking news alerts</b><div id="gs-alerts"><div id="gs-breaking"><span class="small">Latest headlines load here.</span></div><button class="primary" type="button" id="gs-alert-btn">Turn on alerts</button><p class="small">Alerts work while this page is open. Your browser will ask permission.</p></div></div>
 <!-- GS-FUN-2026-11-05 -->
 <div class="mini feat" data-kw="today world summary top news"><b>Today in the world</b><div id="gs-daily">Loading…</div><p class="small">The 5 biggest stories right now, from the live news feed.</p></div>
+<div class="mini feat" data-kw="pakistan trending top stories"><b>Trending in Pakistan — Aaj kya trending hai</b><div id="gs-trending">Loading…</div><p class="small">Top Pakistan stories from the live news feed. This is not Google Trends — there is no free Google Trends API.</p></div>
 <div class="mini feat" data-kw="earthquake disaster alert"><b>Earthquakes — past day (USGS)</b><div id="quakeList">Loading…</div></div>
 <div class="mini feat" data-kw="on this day history"><b>On this day in history</b><div id="otdList">Loading…</div><p class="small">Source: Wikipedia On This Day feed.</p></div>
 <div class="mini feat" data-kw="war news conflicts"><b>War news — ongoing conflicts</b><div id="warNews">Loading…</div></div>
@@ -205,8 +219,9 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="crypto top gainers losers market"><b>Top 10 crypto by market cap</b><div id="cryptoTop">Loading…</div></div>
 <div class="mini feat" data-kw="bitcoin dominance market cap fear greed"><b>Market overview</b><div id="cryptoGlobal">Loading…</div><div id="fng">Loading…</div></div>
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Currency rates (1 USD =)</b><div id="fxRates">Loading…</div><p class="small">Source: exchangerate-api.com free feed.</p></div>
-<div class="mini feat" data-kw="gold silver tola rate"><b>Gold &amp; silver (international spot)</b><div id="goldRates">Loading…</div><p class="small">Spot price, NOT local sarafa rate. Per-tola uses 1 tola = 11.6638 g.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p></div>
+<div class="mini feat" data-kw="gold silver tola rate"><b>Gold &amp; silver (international spot)</b><div id="goldRates">Loading…</div><p class="small">Spot price, NOT local sarafa rate. Per-tola uses 1 tola = 11.6638 g.</p><p class="small"><a href="/gold-rate.html">Open the full gold rate page →</a></p></div>
+<div class="mini feat" data-kw="sarafa gold rate pakistan tola"><b>Sarafa gold rate — Pakistan (from international spot)</b><div id="gs-sarafa">Loading…</div><p class="small">This is the international spot gold price converted to PKR per tola — NOT the local sarafa bazaar rate. For the bazaar rate, check your local sarafa association. 1 tola = 11.6638 g.</p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p><p class="small"><a href="/petrol-price.html">Open the full petrol price page →</a></p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>USD 30-day chart (EUR &amp; GBP)</b><div id="fxChart">Loading…</div><p class="small">Source: Frankfurter (ECB-based). PKR/SAR/AED are not covered by Frankfurter.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Currency converter</b>
@@ -225,7 +240,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <h2>Weather</h2>
 <div class="grid">
 <div class="mini feat" data-kw="your city weather prayer times"><b>Your city</b><div><select id="gsCityPick" style="font-size:16px;padding:6px"></select></div><p class="small">Weather &amp; prayer times below are for <b id="gsCityLabel">Karachi</b>. Saved on this device.</p></div>
-<div class="mini feat" data-kw="karachi weather now"><b id="wxNowH">Karachi — right now</b><div id="wxNow">Loading…</div></div>
+<div class="mini feat" data-kw="karachi weather now"><b id="wxNowH">Karachi — right now</b><div id="wxNow">Loading…</div><p class="small"><a href="/weather.html">Open the full weather page →</a></p></div>
 <div class="mini feat" data-kw="forecast 7 days"><b id="fcH">Karachi — 7-day forecast</b><div id="wxForecast">Loading…</div></div>
 <div class="mini feat" data-kw="rain alert precipitation"><b id="rainH">Rain alert (next 12 hours, Karachi)</b><div id="wxRain">Loading…</div></div>
 <div class="mini feat" data-kw="uv index air quality aqi pollution"><b id="uvH">UV &amp; air quality (Karachi)</b><div id="wxUvAqi">Loading…</div></div>
@@ -242,11 +257,12 @@ gtag('config', 'G-T6WVGJVD4J');
 <h2>Prayer &amp; Islam</h2>
 <div class="grid">
 <div class="mini feat" data-kw="prayer times namaz karachi"><b id="prayerH">Prayer times — Karachi today</b><div id="prayerToday">Loading…</div><div id="prayerNext"></div><p class="small">Method: University of Islamic Sciences, Karachi. Source: AlAdhan.</p>
-<p class="small">Prayer times use the University of Islamic Sciences, Karachi method (method 1) via AlAdhan.</p></div>
+<p class="small">Prayer times use the University of Islamic Sciences, Karachi method (method 1) via AlAdhan.</p><p class="small"><a href="/prayer-times.html">Open the full prayer times page →</a></p></div>
 <div class="mini feat" data-kw="sehri iftar fasting hours"><b id="sehriH">Sehri &amp; Iftar (Karachi)</b><div id="sehriIftar">Loading…</div></div>
 <div class="mini feat" data-kw="hijri islamic date calendar"><b>Hijri date today</b><div id="hijriDate">Loading…</div><div id="ramadanCount">Loading…</div><!-- GS-FUN-2026-11-05 -->
 <div id="eidFitrCount">Loading…</div><div id="eidAdhaCount">Loading…</div><div id="newYearCount">Loading…</div>
 </div>
+<div class="mini feat" data-kw="today events islamic date cricket"><b>Today's events</b><div id="gs-events">Loading…</div><p class="small">Islamic date from AlAdhan; cricket matches from the live cricket feed.</p></div>
 <div class="mini feat" data-kw="makkah madinah prayer times"><b>Makkah &amp; Madinah times</b><div id="holyTimes">Loading…</div></div>
 <div class="mini feat" data-kw="monthly prayer calendar timetable"><b id="calH">Monthly prayer calendar (Karachi)</b><div id="prayerMonth">Loading…</div></div>
 <div class="mini feat" data-kw="quran verse of the day audio tilawat"><b>Verse of the day</b><div id="verseDay">Loading…</div><p class="small">Audio: everyayah.com (Alafasy). Translation: Muhammad Asad.</p></div>
@@ -261,6 +277,31 @@ gtag('config', 'G-T6WVGJVD4J');
 </div>
 </section>
 
+
+
+<!-- ============ PAKISTAN ============ -->
+<section class="card" id="pakistan">
+<h2>Pakistan</h2>
+<div class="grid">
+<div class="mini feat" data-kw="load shedding schedule ke lesco"><b>Load shedding — how to check your schedule</b><p>There is no single live load-shedding API. Load shedding in Pakistan is published feeder-wise by each distributor. Check yours here:</p><ul>
+<li><b>Karachi (K-Electric):</b> <a href="https://www.ke.com.pk/" target="_blank" rel="noopener">ke.com.pk</a> — Customer Service → Load-Shed / Maintenance Schedule (enter your account number); or SMS <b>LS</b> + account number to <b>8119</b>; or call <b>118</b>; or the KE Live app.</li>
+<li><b>Lahore (LESCO):</b> <a href="https://lesco.gov.pk/" target="_blank" rel="noopener">lesco.gov.pk</a> — Load Shedding Schedule (search by reference number or feeder).</li>
+<li><b>Islamabad (IESCO):</b> <a href="https://iesco.com.pk/" target="_blank" rel="noopener">iesco.com.pk</a></li>
+</ul><p class="small">Schedules are feeder-wise, not city-wise — your feeder name is on your electricity bill. No schedule is shown here because there is no reliable free live source; the links above are the official ones.</p></div>
+<div class="mini feat" data-kw="hajj umrah updates pakistan"><b>Hajj &amp; Umrah updates</b><div id="gs-hajj">Loading…</div><p class="small">Official links: <a href="https://www.mora.gov.pk/" target="_blank" rel="noopener">Ministry of Religious Affairs (Pakistan)</a> · <a href="https://hajj.nusuk.sa/" target="_blank" rel="noopener">Nusuk — Hajj</a> · <a href="https://www.nusuk.sa/" target="_blank" rel="noopener">Nusuk — Umrah</a></p></div>
+<div class="mini feat" data-kw="board results bise pakistan"><b>Board results — Pakistan</b><p>Results are published by each board on its own official website:</p><ul>
+<li><a href="https://biselahore.com/" target="_blank" rel="noopener">BISE Lahore</a></li>
+<li><a href="https://fbise.edu.pk/" target="_blank" rel="noopener">FBISE Islamabad</a></li>
+<li><a href="https://biek.edu.pk/" target="_blank" rel="noopener">BIEK Karachi</a></li>
+<li><a href="https://biserawalpindi.edu.pk/" target="_blank" rel="noopener">BISE Rawalpindi</a></li>
+<li><a href="https://web.bisemultan.edu.pk/" target="_blank" rel="noopener">BISE Multan</a></li>
+<li><a href="https://bisefsd.edu.pk/" target="_blank" rel="noopener">BISE Faisalabad</a></li>
+<li><a href="https://bisegrw.edu.pk/" target="_blank" rel="noopener">BISE Gujranwala</a></li>
+<li><a href="https://bisep.edu.pk/" target="_blank" rel="noopener">BISE Peshawar</a></li>
+<li><a href="https://bbiseqta.edu.pk/" target="_blank" rel="noopener">BISE Quetta</a></li>
+</ul><p class="small">No result is shown here — check your board's official site above.</p></div>
+</div>
+</section>
 
 
 <!-- ============ SPORTS ============ -->
@@ -360,6 +401,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="day length year day number progress"><b>Day &amp; year numbers</b><div id="dayNums"></div></div>
 <!-- GS-FUN-2026-11-05 -->
 <div class="mini feat" data-kw="quiz world trivia questions"><b>Daily quiz — how well do you know the world?</b><div id="gs-quiz">Loading…</div><p class="small">5 new questions every day. No sign-up, just play.</p></div>
+<div class="mini feat" data-kw="streak counter daily visit"><b>Your visit streak</b><div id="gs-streak">Loading…</div><p class="small">Open GlobalStream every day to keep your streak growing. Miss a day and it resets to 1.</p></div>
 <div class="mini feat" data-kw="daily sudoku puzzle game"><b>Daily Sudoku</b><div id="gs-sudoku">Loading…</div><p class="small">A new puzzle every day. Tap a cell, type a number, then press Check.</p></div>
 
 
@@ -372,6 +414,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="grid">
 <div class="mini feat" data-kw="trending films movies tmdb"><b>Trending films (TMDB)</b><div id="gs-tmdb">Loading…</div></div>
 <div class="mini feat" data-kw="trending videos youtube"><b>Trending videos (YouTube)</b><div id="gs-youtube">Loading…</div></div>
+<div class="mini feat" data-kw="image of the day nasa space"><b>Image of the day</b><div id="gs-image-day">Loading…</div><p class="small">NASA Astronomy Picture of the Day (APOD), with credit.</p></div>
 </div>
 <div class="phase2 feat" data-kw="makkah live kaaba haram">
 <b>Makkah live — Masjid al-Haram</b>
@@ -1152,6 +1195,127 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
 
+  /* GS-WAVE2-2026-11-05: trending / events / image of the day / sarafa / hajj */
+  function renderTrending(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading Pakistan stories…</p>';
+    gsGet('news', { beat: 'pakistan' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.articles || !env.data.articles.length) {
+        el.innerHTML = gsErrorHTML(); return;
+      }
+      var html = '<ol>';
+      env.data.articles.slice(0, 5).forEach(function (a) {
+        html += '<li><a href="' + gsEsc(a.url) + '" target="_blank" rel="noopener">' + gsEsc(a.title) + '</a>'
+          + ' <span class="small">— ' + gsEsc(a.source || '') + '</span></li>';
+      });
+      el.innerHTML = html + '</ol>';
+    }).catch(function () { el.innerHTML = gsErrorHTML(); });
+  }
+  function renderEvents(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading today\'s events…</p>';
+    var hijri = '';
+    fetchJSON("https://api.aladhan.com/v1/timingsByCity?city=Karachi&country=Pakistan&method=1").then(function (d) {
+      var h = d.data.date.hijri;
+      hijri = '<div><b>Today:</b> ' + gsEsc(d.data.date.readable) + ' — ' + h.day + ' ' + gsEsc(h.month.en) + ' ' + h.year + ' AH</div>';
+      return gsGet('cricket', {});
+    }).then(function (env) {
+      var html = hijri;
+      if (env.ok && env.data && env.data.matches && env.data.matches.length) {
+        html += '<div><b>Cricket today:</b></div><ul>';
+        env.data.matches.slice(0, 5).forEach(function (m) {
+          html += '<li>' + gsEsc(m.name || '') + ' — ' + gsEsc(m.status || '') + '</li>';
+        });
+        html += '</ul>';
+      } else {
+        html += '<div class="small">No cricket matches listed today.</div>';
+      }
+      el.innerHTML = html;
+    }).catch(function () { el.innerHTML = gsErrorHTML(); });
+  }
+  function renderImageDay(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading image of the day…</p>';
+    gsGet('apod', {}).then(function (env) {
+      if (!env.ok || !env.data || !env.data.url) {
+        el.innerHTML = '<h4>The Earth seen from Apollo 17</h4>'
+          + '<img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" alt="The Earth seen from Apollo 17" loading="lazy">'
+          + '<p>NASA\'s picture feed is busy right now, so here is the famous "Blue Marble" photo of Earth, taken by the Apollo 17 crew in 1972.</p>'
+          + '<small>Photo: NASA / Apollo 17, via Wikimedia Commons</small>';
+        return;
+      }
+      var d = env.data;
+      el.innerHTML = '<h4>' + gsEsc(d.title || 'NASA Astronomy Picture of the Day') + '</h4>'
+        + (d.media_type === 'video'
+          ? '<p><a href="' + gsEsc(d.url) + '" target="_blank" rel="noopener">Watch today\'s video on the NASA site</a></p>'
+          : '<img src="' + gsEsc(d.url) + '" alt="' + gsEsc(d.title || '') + '" loading="lazy">')
+        + '<p>' + gsEsc((d.explanation || '').slice(0, 400)) + '</p>'
+        + '<small>Image: NASA Astronomy Picture of the Day (APOD)' + (d.date ? ' — ' + gsEsc(d.date) : '') + '</small>';
+    }).catch(function () { el.innerHTML = gsErrorHTML(); });
+  }
+  function renderSarafa(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading sarafa rate…</p>';
+    fetchJSON("https://api.gold-api.com/price/XAU").then(function (xau) {
+      return fetchJSON("https://open.er-api.com/v6/latest/USD").then(function (fx) {
+        return { xau: xau, fx: fx };
+      });
+    }).then(function (g) {
+      var pkr = g.fx.rates ? g.fx.rates.PKR : null;
+      if (!pkr) throw new Error('no PKR rate');
+      var tola = g.xau.price / 31.1035 * 11.6638;
+      var pkrTola = tola * pkr;
+      el.innerHTML = '<div><b>Gold per tola (PKR):</b> ' + fmt(pkrTola, 0) + '</div>'
+        + '<div><b>24k / 22k / 21k / 18k per tola (PKR):</b> ' + fmt(pkrTola, 0) + ' / ' + fmt(pkrTola * 22 / 24, 0) + ' / ' + fmt(pkrTola * 21 / 24, 0) + ' / ' + fmt(pkrTola * 18 / 24, 0) + '</div>'
+        + '<div class="small">From the international spot price ($' + fmt(g.xau.price, 2) + ' / oz) at USD→PKR ' + fmt(pkr, 2) + '. This is NOT the local sarafa bazaar rate.</div>';
+    }).catch(function () { el.innerHTML = gsErrorHTML(); });
+  }
+  function renderHajj(el) {
+    if (!el) return;
+    el.innerHTML = '<p>Loading Hajj &amp; Umrah news…</p>';
+    gsGet('news', { beat: 'islamic' }).then(function (env) {
+      var items = [];
+      if (env.ok && env.data && env.data.articles) {
+        items = env.data.articles.filter(function (a) {
+          var t = ((a.title || '') + ' ' + (a.description || '')).toLowerCase();
+          return t.indexOf('hajj') >= 0 || t.indexOf('umrah') >= 0 || t.indexOf('pilgrim') >= 0;
+        }).slice(0, 3);
+      }
+      if (!items.length) {
+        el.innerHTML = '<p class="small">No Hajj/Umrah news in the feed right now — check the official links below.</p>';
+        return;
+      }
+      var html = '<ul>';
+      items.forEach(function (a) {
+        html += '<li><a href="' + gsEsc(a.url) + '" target="_blank" rel="noopener">' + gsEsc(a.title) + '</a>'
+          + ' <span class="small">— ' + gsEsc(a.source || '') + '</span></li>';
+      });
+      el.innerHTML = html + '</ul>';
+    }).catch(function () {
+      el.innerHTML = '<p class="small">No Hajj/Umrah news in the feed right now — check the official links below.</p>';
+    });
+  }
+
+  /* GS-STREAK-2026-11-05: consecutive-day visit streak, stored on this device only (localStorage). No data leaves the device. */
+  function renderStreak(el) {
+    if (!el) return;
+    var KEY = 'gs-streak';
+    function dayKey(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+    var today = new Date();
+    var todayStr = dayKey(today);
+    var y = new Date(today); y.setDate(y.getDate() - 1);
+    var yStr = dayKey(y);
+    var data = null;
+    try { data = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { data = null; }
+    var streak = 1;
+    if (data && data.last === todayStr) { streak = data.count || 1; }
+    else if (data && data.last === yStr) { streak = (data.count || 0) + 1; }
+    else { streak = 1; }
+    try { localStorage.setItem(KEY, JSON.stringify({ last: todayStr, count: streak })); } catch (e) {}
+    el.innerHTML = '<div class="big">' + streak + (streak === 1 ? ' day' : ' days') + ' in a row</div>'
+      + '<div class="small">Your visit streak — stored only on this device. Come back tomorrow to keep it going.</div>';
+  }
+
   /* ---------------- public API ---------------- */
   window.GS = {
     proxy: function () { return GS_PROXY; },
@@ -1161,7 +1325,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
     hadith: renderHadith, stocks: renderStocks, gaza: renderGaza,
     aljazeera: renderAljazeera, ships: renderShips, livePlanes: renderLivePlanes, fuel: renderFuel, sudoku: renderSudoku, alerts: renderAlerts,
-    daily: renderDailySummary, livemap: renderLiveMap, quiz: renderQuiz, footballMatches: renderFootballMatches
+    daily: renderDailySummary, livemap: renderLiveMap, quiz: renderQuiz, footballMatches: renderFootballMatches,
+    trending: renderTrending, events: renderEvents, imageDay: renderImageDay, sarafa: renderSarafa, hajj: renderHajj,
+    streak: renderStreak
   };
 })();
 
@@ -1849,6 +2015,17 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 (function () {
   function g(id) { return document.getElementById(id); }
   if (!window.GS) return;
+  function lazyLoad(el, fn) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var done = false;
+    var ob = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !done) { done = true; ob.disconnect(); fn(); }
+      });
+    }, { rootMargin: '200px' });
+    ob.observe(el);
+  }
   ['general','world','tech','sports','business','science','health','islamic','defence','mou','oil','crypto','palestine','war'].forEach(function (b) {
     GS.news(g('gs-news-' + b), b);
   });
@@ -1861,15 +2038,21 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   function loadFootball() { GS.football(g('gs-football'), g('gsFootballComp').value); GS.footballMatches(g('gs-football-matches'), g('gsFootballComp').value); }
   g('gsFootballComp').addEventListener('change', loadFootball);
   loadFootball();
-  GS.flights(g('gs-flights'));
+  lazyLoad(g('gs-flights'), function () { GS.flights(g('gs-flights')); });
   GS.ships(g('gs-ships'));
   GS.livePlanes(g('flightList'));
-  GS.webcams(g('gs-webcams'), { limit: 8 });
+  lazyLoad(g('gs-webcams'), function () { GS.webcams(g('gs-webcams'), { limit: 8 }); });
   GS.apod(g('gs-apod'));
   GS.daily(g('gs-daily'));
-  GS.livemap(g('gs-livemap'));
+  lazyLoad(g('gs-livemap'), function () { GS.livemap(g('gs-livemap')); });
   GS.quiz(g('gs-quiz'));
   GS.fuel(g('gs-fuel'));
+  GS.trending(g('gs-trending'));
+  GS.events(g('gs-events'));
+  GS.imageDay(g('gs-image-day'));
+  GS.sarafa(g('gs-sarafa'));
+  GS.hajj(g('gs-hajj'));
+  GS.streak(g('gs-streak'));
   GS.sudoku(g('gs-sudoku'));
   GS.alerts(g('gs-alerts'));
   GS.tmdb(g('gs-tmdb'), 'movie');
