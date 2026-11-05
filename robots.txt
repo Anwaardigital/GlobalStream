@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://globalstream.anwaardigital.com/sitemap.xml
