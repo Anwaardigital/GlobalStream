@@ -65,6 +65,10 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 .grid>*{min-width:0}
 .mini{min-width:0;overflow:hidden;overflow-wrap:break-word;word-wrap:break-word}
 #verseDay>div:first-child{direction:rtl;text-align:right;font-size:20px;line-height:1.9;overflow-wrap:break-word;word-break:break-word}
+/* GS-CAL-FIX-2026-11-05: the Monthly prayer calendar table (6 columns) is wider than its card; the verse fix's .mini{overflow:hidden} was clipping the Isha and Date columns. Let the calendar scroll horizontally inside its own card instead. */
+#prayerMonth{overflow-x:auto}
+#prayerMonth table{font-size:13px}
+#prayerMonth th,#prayerMonth td{padding:5px 6px;white-space:nowrap}
 </style>
 <link rel="alternate" hreflang="en" href="https://globalstream.anwaardigital.com/">
 <link rel="alternate" hreflang="ar" href="https://globalstream.anwaardigital.com/ar/">
