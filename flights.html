@@ -96,17 +96,14 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <section class="card">
 <h2 id="flH">Live flight map</h2>
 <div>
-<label>Region: <select id="flRegion" style="font-size:16px;padding:6px">
-<option value="pk" selected>Pakistan &amp; Middle East</option>
-<option value="eu">Europe</option>
-<option value="us">USA</option>
-<option value="world">World</option>
+<label>Area: <select id="flRegion" style="font-size:16px;padding:6px">
+<option value="pk" selected>Pakistan &amp; Gulf (live)</option>
 </select></label>
 <button type="button" class="primary" id="flRefresh">Refresh now</button>
 <span id="flCount" class="small" style="margin-left:8px">Loading…</span>
 </div>
 <div id="flMap" style="height:520px;border-radius:12px;margin-top:12px;border:1px solid var(--line)"></div>
-<p class="small">Tap a plane to see its flight. Map moves with you — pan or zoom and the planes update. Source: OpenSky Network (live air traffic). Data refreshes every 15 seconds.</p>
+<p class="small">Tap a plane to see its flight. Map moves with you — pan or zoom and the planes update. Source: live air-traffic feed (ADS-B) via GlobalStream. Data refreshes every 3 minutes.</p>
 <div id="flErr" class="err"></div>
 </section>
 <section class="card">
@@ -124,55 +121,40 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 </footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-var REGIONS = {
-  pk:    { c: [28, 55], z: 5 },
-  eu:    { c: [52, 10], z: 5 },
-  us:    { c: [39, -98], z: 4 },
-  world: { c: [20, 0], z: 2 }
-};
-var map = L.map('flMap').setView(REGIONS.pk.c, REGIONS.pk.z);
+var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
+var map = L.map('flMap').setView([24.86, 67.00], 6);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 var layer = L.layerGroup().addTo(map);
 var PLANE_SVG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="#FFC107" stroke="#7a5b00" stroke-width="0.4"><path d="M21.5 15.5v-2l-8-5V3c0-.83-.67-1.5-1.5-1.5S10.5 2.17 10.5 3v5.5l-8 5v2l8-2.5v5.5l-2 1.5V21l3.5-1 3.5 1v-1.5l-2-1.5V13l8 2.5z"/></svg>';
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 function fmt(n, d){ return (n==null || isNaN(n)) ? '—' : Number(n).toFixed(d==null?0:d); }
 function loadFlights(){
-  var b = map.getBounds();
-  var url = 'https://opensky-network.org/api/states/all?lamin=' + b.getSouth().toFixed(2) + '&lamax=' + b.getNorth().toFixed(2) + '&lomin=' + b.getWest().toFixed(2) + '&lomax=' + b.getEast().toFixed(2);
   document.getElementById('flErr').textContent = '';
-  fetch(url).then(function(r){ if(!r.ok) throw new Error('feed ' + r.status); return r.json(); }).then(function(d){
+  fetch(GS_PROXY + '?endpoint=adsb', { cache: 'no-store' }).then(function(r){ if(!r.ok) throw new Error('feed ' + r.status); return r.json(); }).then(function(d){
+    var planes = (d && d.data && d.data.planes) || [];
     layer.clearLayers();
-    var states = (d && d.states) || [];
     var shown = 0;
-    states.forEach(function(s){
-      var lon = s[5], lat = s[6];
-      if (lat==null || lon==null) return;
-      if (s[8]) return; // on ground
-      if (shown >= 500) return;
-      var hdg = (s[10]==null?0:s[10]);
+    planes.forEach(function(p){
+      if (p.lat==null || p.lon==null) return;
+      if (p.on_ground) return;
+      var hdg = 0;
       var icon = L.divIcon({ className: '', html: '<div style="transform: rotate(' + hdg + 'deg); line-height:0;">' + PLANE_SVG + '</div>', iconSize: [26,26], iconAnchor: [13,13] });
-      var cs = (s[1]||'').trim() || '—';
-      var altFt = s[7]==null ? '—' : fmt(s[7]*3.28084, 0) + ' ft';
-      var spd = s[9]==null ? '—' : fmt(s[9]*3.6, 0) + ' km/h';
-      var vs = s[11]==null ? '—' : fmt(s[11]*196.85, 0) + ' ft/min';
-      var pop = '<b>Flight ' + esc(cs) + '</b><br>Country: ' + esc(s[2]||'—') + '<br>Altitude: ' + altFt + '<br>Speed: ' + spd + '<br>Heading: ' + fmt(hdg,0) + '&deg;<br>Climb/descent: ' + vs;
-      L.marker([lat, lon], { icon: icon }).bindPopup(pop).addTo(layer);
+      var fl = (p.flight||'').trim() || '—';
+      var altFt = p.alt==null ? '—' : fmt(p.alt*3.28084, 0) + ' ft';
+      var spd = p.speed==null ? '—' : fmt(p.speed*1.852, 0) + ' km/h';
+      var pop = '<b>Flight ' + esc(fl) + '</b><br>Altitude: ' + altFt + '<br>Speed: ' + spd + '<br>Position: ' + fmt(p.lat,2) + ', ' + fmt(p.lon,2);
+      L.marker([p.lat, p.lon], { icon: icon }).bindPopup(pop).addTo(layer);
       shown++;
     });
     document.getElementById('flCount').textContent = shown + ' planes in view · updated ' + new Date().toLocaleTimeString();
   }).catch(function(){
+    document.getElementById('flCount').textContent = 'Live feed is busy — retrying…';
     document.getElementById('flErr').textContent = 'Live feed is busy — retrying in a few seconds.';
   });
 }
-document.getElementById('flRegion').addEventListener('change', function(){
-  var r = REGIONS[this.value] || REGIONS.pk;
-  map.setView(r.c, r.z);
-  loadFlights();
-});
 document.getElementById('flRefresh').addEventListener('click', loadFlights);
-map.on('moveend', loadFlights);
 loadFlights();
-setInterval(loadFlights, 15000);
+setInterval(loadFlights, 60000);
 </script>
 </body>
 </html>
