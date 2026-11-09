@@ -98,6 +98,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div>
 <label>Area: <select id="flRegion" style="font-size:16px;padding:6px">
 <option value="pk" selected>Pakistan &amp; Gulf (live)</option>
+<option value="world">Worldwide (live)</option>
 </select></label>
 <button type="button" class="primary" id="flRefresh">Refresh now</button>
 <span id="flCount" class="small" style="margin-left:8px">Loading…</span>
@@ -108,7 +109,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 </section>
 <section class="card">
 <h2>How it works</h2>
-<p>Planes are shown live from air-traffic data. Yellow planes are flying now; the number next to the map is how many are in view. If the map is empty for a moment, the live feed is refreshing — wait a few seconds.</p>
+<p>Planes are shown live from air-traffic data. Yellow planes are flying now; the number next to the map is how many are in view. "Pakistan &amp; Gulf" shows planes around Karachi; "Worldwide" shows active planes across the whole world. If the map is empty for a moment, the live feed is refreshing — wait a few seconds.</p>
 </section>
 <p class="small"><a href="/">← Back to GlobalStream home</a></p>
 </main>
@@ -130,7 +131,10 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ ret
 function fmt(n, d){ return (n==null || isNaN(n)) ? '—' : Number(n).toFixed(d==null?0:d); }
 function loadFlights(){
   document.getElementById('flErr').textContent = '';
-  fetch(GS_PROXY + '?endpoint=adsb', { cache: 'no-store' }).then(function(r){ if(!r.ok) throw new Error('feed ' + r.status); return r.json(); }).then(function(d){
+  var area = document.getElementById('flRegion').value;
+  var q = area === 'world' ? '?endpoint=adsb&area=world' : '?endpoint=adsb';
+  if (area === 'world') map.setView([20, 0], 2); else map.setView([24.86, 67.00], 6);
+  fetch(GS_PROXY + q, { cache: 'no-store' }).then(function(r){ if(!r.ok) throw new Error('feed ' + r.status); return r.json(); }).then(function(d){
     var planes = (d && d.data && d.data.planes) || [];
     layer.clearLayers();
     var shown = 0;
@@ -153,6 +157,7 @@ function loadFlights(){
   });
 }
 document.getElementById('flRefresh').addEventListener('click', loadFlights);
+document.getElementById('flRegion').addEventListener('change', loadFlights);
 loadFlights();
 setInterval(loadFlights, 60000);
 </script>
