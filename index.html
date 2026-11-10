@@ -967,10 +967,11 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     }).catch(function () { /* keep the static snapshot */ });
   }
 
-  /* ---------------- hadith (UmmahAPI: direct first, proxy fallback) ------ */
-  // No key needed. Direct browser call first; if it fails (e.g. CORS), the
-  // proxy fetches the same data server-side. Both paths show real data or
-  // an honest error — never invented text.
+  /* ---------------- hadith (UmmahAPI via Worker) ------------------------ */
+  // No key needed. GS-WORKER-2026-11-10: the hadith now comes through the
+  // Worker first — the direct upstream call is gone (it was
+  // CORS-blocked for some visitors, and every live feed now goes through
+  // the proxy). Shows real data or an honest error — never invented text.
   function renderHadith(el) {
     if (!el) return;
     el.innerHTML = '<p>Loading hadith…</p>';
@@ -983,19 +984,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         + (h.grade ? ' · ' + gsEsc(h.grade) : '')
         + ' · Source: UmmahAPI</small>';
     }
-    fetch('https://ummahapi.com/api/hadith/random')
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        if (j && j.data) { show(j.data); return; }
-        return gsGet('hadith', { random: '1' }).then(function (env) {
-          show(env.ok && env.data ? env.data.hadith : null);
-        });
-      })
-      .catch(function () {
-        gsGet('hadith', { random: '1' }).then(function (env) {
-          show(env.ok && env.data ? env.data.hadith : null);
-        });
-      });
+    gsGet('hadith', { random: '1' }).then(function (env) {
+      show(env.ok && env.data ? env.data.hadith : null);
+    });
   }
 
   /* ---------------- stocks (TradingView widget, NO key) ------------------ */
@@ -1814,8 +1805,13 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 
   /* ---------- NEWS ---------- */
   function loadNews() {
-    fetchJSON("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson")
-      .then(function (d) {
+    /* GS-WORKER-2026-11-10: every call below goes through the Worker
+       (gsW) — no upstream API is called directly from this page anymore.
+       Payload shapes match the old direct responses, so the rendering
+       code is unchanged; only the data source changed. */
+    gsW('quake', {}).then(function (env) {
+        if (!env.ok || !env.data || !env.data.features) throw new Error('quake unavailable');
+        var d = env.data;
         var feats = d.features.slice().sort(function (a, b) { return b.properties.mag - a.properties.mag; });
         var biggest = feats[0];
         var rows = feats.slice(0, 8).map(function (f) {
@@ -1827,15 +1823,17 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       }).catch(function () { setErr("quakeList"); });
     var now = new Date();
     var mm = String(now.getMonth() + 1).padStart(2, "0"), dd = String(now.getDate()).padStart(2, "0");
-    fetchJSON("https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/" + mm + "/" + dd)
-      .then(function (d) {
+    gsW('onthisday', { mm: mm, dd: dd }).then(function (env) {
+        if (!env.ok || !env.data) throw new Error('onthisday unavailable');
+        var d = env.data;
         var items = (d.selected || []).slice(0, 3);
         $("otdList").innerHTML = items.map(function (it) {
           return "<div><b>" + esc(it.year) + ":</b> " + esc(it.text) + "</div>";
         }).join("");
       }).catch(function () { setErr("otdList"); });
-    fetchJSON("https://api.gdeltproject.org/api/v2/doc/doc?query=conflict&mode=artlist&maxrecords=8&format=json")
-      .then(function (d) {
+    gsW('gdeltconflict', {}).then(function (env) {
+        if (!env.ok || !env.data) throw new Error('empty');
+        var d = env.data;
         var arts = d.articles || [];
         if (!arts.length) throw new Error("empty");
         $("warNews").innerHTML = arts.map(function (a) {
@@ -1846,16 +1844,18 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
           "<div><a href='https://en.wikipedia.org/wiki/List_of_ongoing_armed_conflicts' target='_blank' rel='noopener'>See the full list of ongoing armed conflicts on Wikipedia</a></div>" +
           "<div class='small'>ReliefWeb needs an approved appname (Phase 2 request). No conflict figures are estimated here.</div>";
       });
-    fetchJSON("https://date.nager.at/api/v3/NextPublicHolidaysWorldwide")
-      .then(function (d) {
+    gsW('holidays', {}).then(function (env) {
+        if (!env.ok || !env.data) throw new Error('holidays unavailable');
+        var d = env.data;
         var today = new Date().toISOString().slice(0, 10);
         var up = d.filter(function (h) { return h.date >= today; }).slice(0, 8);
         $("holidayList").innerHTML = up.map(function (h) {
           return "<div><b>" + h.date + ":</b> " + esc(h.localName) + " (" + esc(h.name) + ", " + h.countryCode + ")</div>";
         }).join("");
       }).catch(function () { setErr("holidayList"); });
-    fetchJSON("https://openlibrary.org/trending/daily.json")
-      .then(function (d) {
+    gsW('books', {}).then(function (env) {
+        if (!env.ok || !env.data) throw new Error('books unavailable');
+        var d = env.data;
         $("bookTrend").innerHTML = d.works.slice(0, 5).map(function (w) {
           return "<div><b>" + esc(w.title) + "</b> <span class='small'>— " + esc((w.author_name || []).join(", ")) + "</span></div>";
         }).join("");
@@ -1864,8 +1864,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       var q = $("bookQ").value.trim();
       if (!q) return;
       $("bookSearch").innerHTML = "Searching…";
-      fetchJSON("https://openlibrary.org/search.json?q=" + encodeURIComponent(q) + "&limit=5")
-        .then(function (d) {
+      gsW('books', { q: q }).then(function (env) {
+          if (!env.ok || !env.data) throw new Error('books unavailable');
+          var d = env.data;
           $("bookSearch").innerHTML = d.docs.map(function (b) {
             return "<div><b>" + esc(b.title) + "</b> <span class='small'>— " + esc((b.author_name || []).join(", ")) + (b.first_publish_year ? " (" + b.first_publish_year + ")" : "") + "</span></div>";
           }).join("") || "No results.";
@@ -1907,16 +1908,17 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     $("tzOut").innerHTML = "<b>" + t + " in " + fromTz + " = " + out + " in " + toTz + " (today's date basis).</b>";
   });
   function loadTravel() {
-    /* ISS via wheretheiss.at (free, https, CORS-open). The previous
-       open-notify endpoint answers curl fine, but the page's live check
-       kept failing on phones; wheretheiss.at works from the browser. */
-    fetchJSON("https://api.wheretheiss.at/v1/satellites/25544")
-      .then(function (d) {
+    /* GS-WORKER-2026-11-10: ISS now comes through the Worker (gsW) —
+       wheretheiss.at first, open-notify as fallback (lat/lon only;
+       altitude/speed show — then, never a guessed number). */
+    gsW('iss', {}).then(function (env) {
+        if (!env.ok || !env.data || env.data.latitude == null) throw new Error('iss unavailable');
+        var d = env.data;
         var lat = d.latitude, lon = d.longitude;
         $("issPos").innerHTML = "<div><b>Latitude:</b> " + fmt(lat, 4) + " · <b>Longitude:</b> " + fmt(lon, 4) + "</div>" +
-          "<div class='small'>Altitude " + fmt(d.altitude, 0) + " km · speed " + fmt(d.velocity, 0) + " km/h · visibility: " + esc(d.visibility || "—") + "</div>" +
+          "<div class='small'>Altitude " + (d.altitude == null ? "—" : fmt(d.altitude, 0)) + " km · speed " + (d.velocity == null ? "—" : fmt(d.velocity, 0)) + " km/h · visibility: " + esc(d.visibility || "—") + "</div>" +
           "<div><a href='https://maps.google.com/?q=" + lat + "," + lon + "' target='_blank' rel='noopener'>See on map</a></div>" +
-          "<div class='small'>Live ISS position (wheretheiss.at). Refresh the page for a new fix.</div>";
+          "<div class='small'>Live ISS position (" + esc(d.source || "wheretheiss.at") + "). Refresh the page for a new fix.</div>";
       }).catch(function () {
         $("issPos").innerHTML = "<span class='err'>ISS feed unreachable right now. No position is shown rather than a guessed one — try again later.</span>";
       });
@@ -1925,29 +1927,32 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
        blocked. The card (#flightList) is now rendered by GS.livePlanes in the
        proxy renderer, which reads the Worker 'opensky' endpoint
        (server-side fetch, whole-country bbox). The inline init calls it. */
-    fetchJSON("https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=5")
-      .then(function (d) {
+    gsW('launches', {}).then(function (env) {
+        if (!env.ok || !env.data || !env.data.results) throw new Error('launches unavailable');
+        var d = env.data;
         $("launchList").innerHTML = d.results.map(function (l) {
           return "<div><b>" + esc(l.name) + "</b> <span class='small'>— " + esc(l.net) + " · " + esc((l.launch_service_provider || {}).name || "") + "</span></div>";
         }).join("");
       }).catch(function () {
         $("launchList").innerHTML = "<span class='err'>Launch feed is rate-limited right now (SpaceDevs throttles shared networks). No launches are listed rather than guessed ones — try again later.</span>";
       });
-    fetchJSON("https://services.swpc.noaa.gov/json/planetary_k_index_1m.json")
-      .then(function (d) {
-        var last = d[d.length - 1];
+    /* GS-WORKER-2026-11-10: Kp index + GOES X-ray flux now arrive in one
+       Worker call ('spacewx') instead of two direct NOAA calls. */
+    gsW('spacewx', {}).then(function (env) {
+        if (!env.ok || !env.data) throw new Error('spacewx unavailable');
+        var d = env.data;
+        var kpArr = d.kp || [];
+        var last = kpArr[kpArr.length - 1];
+        if (!last) throw new Error('spacewx unavailable');
         var kp = last.estimated_kp;
         var meaning = kp < 3 ? "Quiet — aurora only near the poles." : kp < 5 ? "Active — aurora may reach mid-high latitudes." : "Storm — aurora may be visible much further south/north.";
         $("auroraBox").innerHTML = "<div class='big'>Kp " + fmt(kp, 2) + "</div><div>" + meaning + "</div><div class='small'>Source: NOAA SWPC, " + last.time_tag + " UTC.</div>";
-      }).catch(function () { setErr("auroraBox"); });
-    fetchJSON("https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json")
-      .then(function (d) {
-        var recent = d.slice(-60);
+        var recent = (d.xray || []).slice(-60);
         var max = Math.max.apply(null, recent.map(function (r) { return r.observed_flux || r.flux || 0; }));
         var cls = max < 1e-8 ? "A" : max < 1e-7 ? "B" : max < 1e-6 ? "C" : max < 1e-4 ? "M" : "X";
         $("solarBox").innerHTML = "<div><b>Peak X-ray flux (last hour):</b> " + max.toExponential(2) + " W/m² — class " + cls + "</div>" +
           "<div class='small'>A/B = quiet, C = minor, M = moderate, X = major. Source: NOAA GOES.</div>";
-      }).catch(function () { setErr("solarBox"); });
+      }).catch(function () { setErr("auroraBox"); setErr("solarBox"); });
     var nb = $("nearbyBox");
     var sel = document.createElement("select"); sel.id = "nearCity";
     Object.keys(CITIES).forEach(function (n) { var o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); });
