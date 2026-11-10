@@ -163,7 +163,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="ticker" id="ticker">Loading live data…</div>
 
 <nav class="secnav">
-<a href="#palestine">Palestine</a><a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#pakistan">Pakistan</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a><a href="/flights.html">Live flights</a><a href="/air-quality.html">Air quality</a><a href="#about">About</a><a href="#contact">Contact</a>
+<a href="#palestine">Palestine</a><a href="#news">News</a><a href="#money">Money</a><a href="#weather">Weather</a><a href="#islam">Prayer &amp; Islam</a><a href="#pakistan">Pakistan</a><a href="#sports">Sports</a><a href="#travel">Travel &amp; World</a><a href="#tools">Tools</a><a href="#live">Live</a><a href="/flights.html">Live flights</a><a href="/air-quality.html">Air quality</a><a href="/world-news.html">World news</a><a href="/pakistan-news.html">Pakistan news</a><a href="/crypto.html">Crypto</a><a href="/currency.html">Currency</a><a href="/gold-rate.html">Gold rate</a><a href="/weather.html">Weather</a><a href="/prayer-times.html">Prayer times</a><a href="#about">About</a><a href="#contact">Contact</a>
 </nav>
 
 <main>
@@ -523,8 +523,14 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         q += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
       });
     }
-    return fetch(GS_PROXY + '?' + q, { cache: 'no-store' }).then(function (r) { return r.json(); })
-      .catch(function () { return { ok: false, error: 'network' }; });
+    /* GS-RELIABILITY-2026-11-10: 20s timeout — a hung Worker call used to
+       leave the section on "Loading..." forever. Now it fails fast and the
+       section shows its honest error instead. */
+    var c = new AbortController();
+    var t = setTimeout(function () { c.abort(); }, 20000);
+    return fetch(GS_PROXY + '?' + q, { cache: 'no-store', signal: c.signal })
+      .then(function (r) { clearTimeout(t); return r.json(); })
+      .catch(function () { clearTimeout(t); return { ok: false, error: 'network' }; });
   }
 
   /* GS-STREAK-FIX-2026-11-05: fetchJSON was only defined inside the Phase 1
@@ -552,8 +558,13 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   }
 
   function gsStaleNote(env) {
-    return env.stale
-      ? '<p class="gs-stale-note">Showing last saved update (live feed is busy).</p>' : '';
+    /* GS-RELIABILITY-2026-11-10: every Worker-fed section now shows when
+       its data was last refreshed (envelope fetched_at). */
+    var updated = (env && env.fetched_at)
+      ? '<p class="small">Last updated: ' + gsTime(env.fetched_at) + '</p>' : '';
+    return (env && env.stale
+      ? '<p class="gs-stale-note">Showing last saved update (live feed is busy).</p>' : '')
+      + updated;
   }
 
   function gsTime(iso) {
@@ -1412,6 +1423,9 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
   function setErr(id) { var el = $(id); if (el) el.innerHTML = ERR; }
+  /* GS-RELIABILITY-2026-11-10: "Last updated" stamp for the direct-call
+     sections (crypto / FX / gold / weather / prayer). */
+  function gsStamp() { return "<p class='small'>Last updated: " + new Date().toLocaleString() + "</p>"; }
 
   /* ---------- theme ---------- */
   var themeBtn = $("themeBtn");
@@ -1484,7 +1498,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         $("cryptoPrices").innerHTML =
           "<div><b>Bitcoin:</b> $" + fmt(d.bitcoin.usd, 0) + " · PKR " + fmt(d.bitcoin.pkr, 0) + "</div>" +
           "<div><b>Ethereum:</b> $" + fmt(d.ethereum.usd, 2) + " · PKR " + fmt(d.ethereum.pkr, 0) + "</div>" +
-          "<div><b>Tether (USDT):</b> $" + fmt(d.tether.usd, 4) + " · PKR " + fmt(d.tether.pkr, 2) + "</div>";
+          "<div><b>Tether (USDT):</b> $" + fmt(d.tether.usd, 4) + " · PKR " + fmt(d.tether.pkr, 2) + "</div>" + gsStamp();
         state.btcUSD = d.bitcoin.usd; renderTicker();
       }).catch(function () { setErr("cryptoPrices"); });
     fetchJSON("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1")
@@ -1515,7 +1529,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         var list = ["PKR", "EUR", "GBP", "SAR", "AED", "CNY"];
         $("fxRates").innerHTML = list.map(function (c) {
           return "<div><b>" + c + ":</b> " + fmt(d.rates[c], c === "PKR" ? 2 : 4) + "</div>";
-        }).join("");
+        }).join("") + gsStamp();
         var from = $("ccFrom"), to = $("ccTo");
         Object.keys(d.rates).sort().forEach(function (c) {
           var o1 = document.createElement("option"); o1.value = c; o1.textContent = c; from.appendChild(o1);
@@ -1570,7 +1584,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       } else {
         html += "<p class='small'>PKR conversion needs the currency feed — reload if it failed.</p>";
       }
-      $("goldRates").innerHTML = html;
+      $("goldRates").innerHTML = html + gsStamp();
       renderTicker();
     }).catch(function () { setErr("goldRates"); });
   }
@@ -1592,7 +1606,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
       .then(function (d) {
         var c = d.current;
         $("wxNow").innerHTML = "<div class='big'>" + fmt(c.temperature_2m, 1) + "°C</div>" +
-          "<div>" + esc(WMO[c.weather_code] || ("Code " + c.weather_code)) + " · Humidity " + c.relative_humidity_2m + "% · Wind " + fmt(c.wind_speed_10m, 1) + " km/h</div>";
+          "<div>" + esc(WMO[c.weather_code] || ("Code " + c.weather_code)) + " · Humidity " + c.relative_humidity_2m + "% · Wind " + fmt(c.wind_speed_10m, 1) + " km/h</div>" + gsStamp();
         var rows = d.daily.time.map(function (t, i) {
           return "<tr><td>" + esc(t) + "</td><td>" + esc(WMO[d.daily.weather_code[i]] || "") + "</td><td>" + fmt(d.daily.temperature_2m_max[i], 1) + "° / " + fmt(d.daily.temperature_2m_min[i], 1) + "°</td><td>UV " + fmt(d.daily.uv_index_max[i], 1) + "</td></tr>";
         }).join("");
@@ -1687,7 +1701,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
         var t = d.data.timings;
         state.karachiTimings = t;
         var order = [["Fajr", t.Fajr], ["Sunrise", t.Sunrise], ["Dhuhr", t.Dhuhr], ["Asr", t.Asr], ["Sunset", t.Sunset], ["Maghrib", t.Maghrib], ["Isha", t.Isha]];
-        $("prayerToday").innerHTML = order.map(function (r) { return "<div><b>" + r[0] + ":</b> " + r[1] + "</div>"; }).join("");
+        $("prayerToday").innerHTML = order.map(function (r) { return "<div><b>" + r[0] + ":</b> " + r[1] + "</div>"; }).join("") + gsStamp();
         $("sehriIftar").innerHTML = "<div><b>Sehri ends (Imsak):</b> " + t.Imsak + "</div>" +
           "<div><b>Iftar (Maghrib):</b> " + t.Maghrib + "</div>";
         var now = new Date();
@@ -2098,10 +2112,10 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   safe(function () { var c = g('gsFootballComp'); if (c) c.addEventListener('change', loadFootball); });
   loadFootball();
   lazyLoad(g('gs-flights'), function () { GS.flights(g('gs-flights')); });
-  safe(function () { GS.ships(g('gs-ships')); });
-  safe(function () { GS.livePlanes(g('flightList')); });
+  lazyLoad(g('gs-ships'), function () { GS.ships(g('gs-ships')); });
+  lazyLoad(g('flightList'), function () { GS.livePlanes(g('flightList')); });
   lazyLoad(g('gs-webcams'), function () { GS.webcams(g('gs-webcams'), { limit: 8 }); });
-  safe(function () { GS.apod(g('gs-apod')); });
+  lazyLoad(g('gs-apod'), function () { GS.apod(g('gs-apod')); });
   safe(function () { GS.daily(g('gs-daily')); });
   lazyLoad(g('gs-livemap'), function () { GS.livemap(g('gs-livemap')); });
   safe(function () { GS.quiz(g('gs-quiz')); });
@@ -2114,8 +2128,8 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   safe(function () { GS.streak(g('gs-streak')); });
   safe(function () { GS.sudoku(g('gs-sudoku')); });
   safe(function () { GS.alerts(g('gs-alerts')); });
-  safe(function () { GS.tmdb(g('gs-tmdb'), 'movie'); });
-  safe(function () { GS.youtube(g('gs-youtube'), 'PK'); });
+  lazyLoad(g('gs-tmdb'), function () { GS.tmdb(g('gs-tmdb'), 'movie'); });
+  lazyLoad(g('gs-youtube'), function () { GS.youtube(g('gs-youtube'), 'PK'); });
 })();
 </script>
 <button class="primary" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:76px;right:16px;z-index:99">Back to top</button>
