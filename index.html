@@ -182,14 +182,14 @@ gtag('config', 'G-T6WVGJVD4J');
 <!-- ============ NEWS ============ -->
 <section class="card" id="news">
 <h2>News</h2>
-<!-- GS-WAVE2-2026-11-05: static top headlines so search engines do not see an empty news section. Snapshot from Al Jazeera's live feed, 5 November 2026; fresh headlines load below. -->
-<div class="mini feat" data-kw="top headlines today"><b>Top stories today — 5 November 2026</b>
+<!-- GS-WAVE2-2026-11-05: static top headlines so search engines do not see an empty news section. Snapshot refreshed 10 November 2026 from Al Jazeera's live feed; renderTopStories rewrites this block from the live feed on every load, so it never goes stale for visitors. -->
+<div class="mini feat" id="gs-topstories" data-kw="top headlines today"><b>Top stories today — 10 November 2026</b>
 <ol>
-<li><a href="https://www.aljazeera.com/news/2026/11/5/joint-list-says-it-will-back-eisenkot-to-form-israels-next-government?traffic_source=rss" target="_blank" rel="noopener">Joint List says it will back Eisenkot to form Israel's next government</a> <span class="small">— Al Jazeera</span></li>
-<li><a href="https://www.aljazeera.com/news/2026/11/5/four-people-including-a-child-killed-in-israeli-attacks-on-gaza?traffic_source=rss" target="_blank" rel="noopener">Four people, including a child, killed in Israeli attacks on Gaza</a> <span class="small">— Al Jazeera</span></li>
-<li><a href="https://www.aljazeera.com/news/2026/11/5/iran-gaza-ukraine-what-will-us-midterm-results-mean-for-these-conflicts?traffic_source=rss" target="_blank" rel="noopener">Iran, Gaza, Ukraine: What will US midterm results mean for these conflicts?</a> <span class="small">— Al Jazeera</span></li>
+<li><a href="https://www.aljazeera.com/news/2026/11/10/palestine-weekly-west-bank-on-fire-and-gazas-tents-under?traffic_source=rss" target="_blank" rel="noopener">Palestine Weekly: West Bank on fire – and Gaza's tents under water</a> <span class="small">— Al Jazeera</span></li>
+<li><a href="https://www.aljazeera.com/news/2026/11/10/firms-tied-to-west-bank-settlements-win-15m-uk-deals-despite-sanctions?traffic_source=rss" target="_blank" rel="noopener">Firms tied to West Bank settlements win $15m UK deals despite sanctions</a> <span class="small">— Al Jazeera</span></li>
+<li><a href="https://www.aljazeera.com/news/2026/11/10/israeli-forces-kill-14-year-old-palestinian-boy-in-occupied-west-bank?traffic_source=rss" target="_blank" rel="noopener">Israeli forces kill 14-year-old Palestinian boy in occupied West Bank</a> <span class="small">— Al Jazeera</span></li>
 </ol>
-<p class="small">Snapshot from Al Jazeera's live feed, 5 November 2026. Fresh headlines load below when the news feed responds.</p></div>
+<p class="small">Snapshot from Al Jazeera's live feed, 10 November 2026. Fresh headlines load below when the news feed responds.</p><p class="small">Last updated: 10 November 2026</p></div>
 <div class="grid">
 <div class="mini feat" data-kw="breaking news alerts"><b>Breaking news alerts</b><div id="gs-alerts"><div id="gs-breaking"><span class="small">Latest headlines load here.</span></div><button class="primary" type="button" id="gs-alert-btn">Turn on alerts</button><p class="small">Alerts work while this page is open. Your browser will ask permission.</p></div></div>
 <!-- GS-FUN-2026-11-05 -->
@@ -233,7 +233,7 @@ gtag('config', 'G-T6WVGJVD4J');
 <div class="mini feat" data-kw="dollar currency rate pkr euro pound riyal dirham yuan"><b>Currency rates (1 USD =)</b><div id="fxRates">Loading…</div><p class="small">Source: exchangerate-api.com free feed.</p></div>
 <div class="mini feat" data-kw="gold silver tola rate"><b>Gold &amp; silver (international spot)</b><div id="goldRates">Loading…</div><p class="small">Spot price, NOT local sarafa rate. Per-tola uses 1 tola = 11.6638 g.</p><p class="small"><a href="/gold-rate.html">Open the full gold rate page →</a></p></div>
 <div class="mini feat" data-kw="sarafa gold rate pakistan tola"><b>Sarafa gold rate — Pakistan (from international spot)</b><div id="gs-sarafa">Loading…</div><p class="small">This is the international spot gold price converted to PKR per tola — NOT the local sarafa bazaar rate. For the bazaar rate, check your local sarafa association. 1 tola = 11.6638 g.</p></div>
-<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p><p class="small"><a href="/petrol-price.html">Open the full petrol price page →</a></p></div>
+<div class="mini feat" data-kw="petrol price pakistan diesel"><b>Petrol &amp; diesel — Pakistan</b><div id="gs-fuel"><div><b>Petrol:</b> Rs 346.00 / litre</div><div><b>Diesel:</b> Rs 378.00 / litre</div><div class="small">Last updated: 10 November 2026</div></div><p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p><p class="small"><a href="/petrol-price.html">Open the full petrol price page →</a></p></div>
 
 <div class="mini feat" data-kw="dollar chart 30 days euro pound"><b>USD 30-day chart (EUR &amp; GBP)</b><div id="fxChart">Loading…</div><p class="small">Source: Frankfurter (ECB-based). PKR/SAR/AED are not covered by Frankfurter.</p></div>
 <div class="mini feat" data-kw="currency converter"><b>Currency converter</b>
@@ -931,6 +931,30 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     });
   }
 
+  /* ---------------- top stories (live snapshot) ---------------- */
+  // GS-FIX-2026-11-10: the static "Top stories today" snapshot was frozen
+  // at 5 Nov 2026 because nothing ever rewrote it. This renderer fetches
+  // the live Al Jazeera feed on every load and rewrites the snapshot with
+  // today's top 3 headlines + a Last-updated stamp, so it can never go
+  // stale for visitors. If the feed fails, the static snapshot (refreshed
+  // 10 Nov 2026) stays on screen.
+  function renderTopStories(el) {
+    if (!el) return;
+    gsGet('aljazeera', { v: '2' }).then(function (env) {
+      if (!env.ok || !env.data || !env.data.articles || !env.data.articles.length) return;
+      var today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      var html = '<b>Top stories today — ' + gsEsc(today) + '</b><ol>';
+      env.data.articles.slice(0, 3).forEach(function (a) {
+        html += '<li><a href="' + gsEsc(a.link || a.url) + '" target="_blank" rel="noopener">'
+          + gsEsc(a.title) + '</a> <span class="small">— Al Jazeera</span></li>';
+      });
+      html += '</ol><p class="small">Snapshot from Al Jazeera\'s live feed, ' + gsEsc(today)
+        + '. Fresh headlines load below when the news feed responds.</p>'
+        + '<p class="small">Last updated: ' + gsEsc(env.fetched_at ? gsTime(env.fetched_at) : today) + '</p>';
+      el.innerHTML = gsStaleNote(env) + html;
+    }).catch(function () { /* keep the static snapshot */ });
+  }
+
   /* ---------------- hadith (UmmahAPI: direct first, proxy fallback) ------ */
   // No key needed. Direct browser call first; if it fails (e.g. CORS), the
   // proxy fetches the same data server-side. Both paths show real data or
@@ -1011,6 +1035,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
           + '<div><b>Petrol:</b> Rs ' + fmt(env.data.petrol, 2) + ' / litre</div>'
           + '<div><b>Diesel:</b> Rs ' + fmt(env.data.diesel, 2) + ' / litre</div>'
           + (env.data.effective ? '<div class="small">Effective: ' + gsEsc(env.data.effective) + '</div>' : '')
+          + (env.fetched_at ? '<div class="small">Last updated: ' + gsEsc(gsTime(env.fetched_at)) + '</div>' : '')
           + (env.data.fallback ? '<div class="small">Last checked price — live feed unavailable right now.</div>' : '');
       }).catch(function () {
         if (tries < 2) { setTimeout(attempt, 3000); return; }
@@ -1355,7 +1380,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
     flights: renderFlights, webcams: renderWebcams, apod: renderApod,
     tmdb: renderTmdb, youtube: renderYoutube, gdacs: renderGdacs,
     hadith: renderHadith, stocks: renderStocks, gaza: renderGaza,
-    aljazeera: renderAljazeera, ships: renderShips, livePlanes: renderLivePlanes, fuel: renderFuel, sudoku: renderSudoku, alerts: renderAlerts,
+    aljazeera: renderAljazeera, topstories: renderTopStories, ships: renderShips, livePlanes: renderLivePlanes, fuel: renderFuel, sudoku: renderSudoku, alerts: renderAlerts,
     daily: renderDailySummary, livemap: renderLiveMap, quiz: renderQuiz, footballMatches: renderFootballMatches,
     trending: renderTrending, events: renderEvents, imageDay: renderImageDay, sarafa: renderSarafa, hajj: renderHajj,
     streak: renderStreak
@@ -2065,6 +2090,7 @@ var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
   safe(function () { GS.gdacs(g('gs-gdacs')); });
   safe(function () { GS.gaza(g('gs-gaza')); });
   safe(function () { GS.aljazeera(g('gs-aljazeera')); });
+  safe(function () { GS.topstories(g('gs-topstories')); });
   safe(function () { GS.stocks(g('gs-stocks')); });
   safe(function () { GS.hadith(g('gs-hadith')); });
   safe(function () { GS.cricket(g('gs-cricket')); });

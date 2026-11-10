@@ -93,7 +93,7 @@ footer{border-top:2px solid var(--navy);padding:20px 16px;text-align:center;colo
 <div class="hero"><h1>Petrol & Diesel Price — Pakistan</h1><p>Today's OGRA petrol and diesel prices, updated live.</p></div>
 <section class="card">
 <h2>Petrol &amp; diesel prices — Pakistan today</h2>
-<div id="ptFuel"><div><b>Petrol:</b> Rs 362.00 / litre</div><div><b>Diesel:</b> Rs 387.81 / litre</div><div class="small">Effective: 5 November 2026</div></div>
+<div id="ptFuel"><div><b>Petrol:</b> Rs 346.00 / litre</div><div><b>Diesel:</b> Rs 378.00 / litre</div><div class="small">Last updated: 10 November 2026</div></div>
 <p class="small">Source: OGRA notification, republished by petrolratetoday.pk. Prices now change daily.</p>
 </section>
 <section class="card">
@@ -135,6 +135,7 @@ function fetchJSON(url, timeout, _retry) {
   });
 }
 function setErr(id) { var el = $(id); if (el) el.innerHTML = '<p>This feed is temporarily unavailable. Please try again later.</p>'; }
+function timeStr(iso) { if (!iso) return ''; try { return new Date(iso).toLocaleString(); } catch (e) { return iso; } }
 
 var GS_PROXY = 'https://globalstream-proxy.malikanwaarapps.workers.dev/';
 function gsGet(ep, p) {
@@ -154,6 +155,7 @@ function attempt() {
     $('ptFuel').innerHTML = '<div><b>Petrol:</b> Rs ' + fmt(env.data.petrol, 2) + ' / litre</div>'
       + '<div><b>Diesel:</b> Rs ' + fmt(env.data.diesel, 2) + ' / litre</div>'
       + (env.data.effective ? '<div class="small">Effective: ' + esc(env.data.effective) + '</div>' : '')
+      + (env.fetched_at ? '<div class="small">Last updated: ' + esc(timeStr(env.fetched_at)) + '</div>' : '')
       + (env.data.fallback ? '<div class="small">Last checked price — live feed unavailable right now.</div>' : '');
   }).catch(function () {
     if (tries < 2) { setTimeout(attempt, 3000); return; }
